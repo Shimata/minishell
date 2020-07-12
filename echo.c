@@ -1,0 +1,5 @@
+void	echo()
+{
+	char *str;
+
+}
