@@ -6,14 +6,10 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/12 20:36:50 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/14 00:23:27 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "libft.h"
 #include "minishell.h"
 
 const int	echo(t_shell *shell)
@@ -23,23 +19,41 @@ const int	echo(t_shell *shell)
 	int flag;
 
 	words = shell->split;
-	i = ((flag = ft_strncmp(words[1], "-n", 3)) == 0);
-	while (words[++i])
+	if(words[1])
 	{
-		ft_putstr_fd(words[i], 1);
-		words[i + 1] ? write(1, " ", 1) : 0;
+		i = ((flag = ft_strncmp(words[1], "-n", 3)) == 0);
+		while (words[++i])
+		{
+			ft_putstr_fd(words[i], 1);
+			words[i + 1] ? write(1, " ", 1) : 0;
+		}
 	}
-	return (write(1,  "\n", 1));
+	return (write(1, flag ? "\n" : "", 1));
 }
 
-const int	cd()
+const int	cd(t_shell *shell)
 {
-	return (write(1, "cd\n", 3));
+	char *res;
+
+	if (!shell->split[1])
+		return (write(1, "\n", 1));
+	if (!ft_strncmp(shell->split[1], "..", 3))
+		res = "../";
+	else
+		res = shell->split[1];
+	chdir(res);
+	free(shell->cwd);
+	shell->cwd = getcwd(NULL, 42);
+	return (0);
 }
 
-const int	pwd()
+const int	pwd(t_shell * shell)
 {
-	return (write(1, "pwd\n", 4));
+	if (shell->cwd)
+		free(shell->cwd);
+	shell->cwd = getcwd(NULL, 42);
+	ft_putendl_fd(shell->cwd, 1);
+	return (0);
 }
 
 const int	export()
@@ -55,9 +69,24 @@ const int	unset()
 const int	env(t_shell *shell)
 {
 	char **env = shell->environ;
+
 	while (*env)
 		ft_putendl_fd(*(env++), 1);
-	return (write(1, "env\n", 4));
+	return (0);
+}
+
+const int	ls(t_shell *shell)
+{
+	DIR				*dirr;
+	struct dirent	*curr;
+	int				i;
+
+	i = -1;
+	dirr = opendir(shell->cwd);
+	while ((curr = readdir(dirr)))
+		curr->d_name[0] != '.' ? ft_putendl_fd(curr->d_name, 1) : 0;
+	closedir(dirr);
+	return (0);
 }
 
 const int	ft_exit()
@@ -67,12 +96,11 @@ const int	ft_exit()
 	return (0);
 }
 
-
 void	parse_args(char **tab, char *str, t_shell *shell)
 {
-	const char	*args[9] = {"echo", "cd", "pwd", "export", "unset",
+	const char	*args[9] = {"echo", "cd", "pwd", "ls", "export", "unset",
 						"env", "exit", NULL};
-	const int	(*funcs[8])() = {&echo, &cd, &pwd, &export, &unset,
+	const int	(*funcs[8])() = {&echo, &cd, &pwd, &ls, &export, &unset,
 						&env, &ft_exit};
 	int			i;
 
@@ -88,34 +116,37 @@ void	parse_args(char **tab, char *str, t_shell *shell)
 		}
 	}
 	i = -1;
-	write(2, "zsh: command not found: ", 24);
-	while (*str == ' ')
+	while (ft_isspace(*str))
 		str++;
-	ft_putendl_fd(str, 2);
+	ft_printf("42sh: %s: command not found\n", str);
 }
 
-void	minishell(char **environ)
+void	minishell(t_shell *shell)
 {
 	char	*str;
-	t_shell	shell;
 
-	shell.environ = environ;
-	shell.str = str;
-	write(1, "prompt% ", 8);
 	while (1)
 	{
 		if (get_next_line(1, &str))
 		{
 			//parse_argv(str);
-			parse_args((shell.split = ft_split(str, ' ')), str, &shell);
-			ft_tabclear(shell.split);
+			parse_args((shell->split = ft_split(str, ' ')), str, shell);
+			ft_tabclear(shell->split);
 			free(str);
 		}
-		write(1, "prompt% ", 8);
+		ft_putstr_fd(SHELL, 1);
 	}
 }
 
 int main(int ac, char **av, char **environ)
 {
-	minishell(environ);
+	t_shell	shell;
+	t_env	*envir;
+
+	ft_bzero(&shell, sizeof(shell));
+	shell.environ = environ;
+	shell.cwd = getcwd(NULL, 42);
+	chdir(shell.cwd);
+	ft_putstr_fd(SHELL, 1);
+	minishell(&shell);
 }

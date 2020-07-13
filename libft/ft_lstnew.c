@@ -1,38 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/13 23:47:57 by wquinoa          ###   ########.fr       */
+/*   Created: 2020/04/30 23:05:20 by wquinoa           #+#    #+#             */
+/*   Updated: 2020/07/13 21:59:46 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <dirent.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "libft/libft.h"
-# define SHELL "42sh-0.1$ "
+#include "libft.h"
 
-typedef struct	s_en
+t_list		*ft_lstnew(void *content)
 {
-	char		*name;
-	char		*value;
-	struct s_en	*next;
-}				t_env;
+	t_list *new_list;
 
-typedef struct	s_shell
-{
-	char		**environ;
-	char		**split;
-	char		*str;
-	char		*cwd;
-}				t_shell;
-
-
-#endif
+	if (!(new_list = (t_list *)malloc(sizeof(t_list))))
+		return (NULL);
+	new_list->content = content;
+	new_list->next = NULL;
+	return (new_list);
+}

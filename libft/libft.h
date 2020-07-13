@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 21:05:26 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/06/29 16:54:14 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/13 20:34:27 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <unistd.h>
 # include <stdlib.h>
+# include "ft_printf/includes/libftprintf.h"
 # define FD_LIMIT 1024
 # define BUFFER_SIZE 1024
 
@@ -88,12 +89,8 @@ t_list					*ft_lstmap(t_list *lst, void *(*f)(void *),
 **		Math & Utility
 */
 
-size_t					ft_abs(int n);
-size_t					ft_nlen(int n);
 size_t					ft_sqrt(size_t n);
-int						ft_pow(int n, int pow);
 int						ft_max(int a, int b);
-size_t					ft_min(size_t a, size_t b);
 int						ft_isspace(int c);
 void					*ft_del(void *content);
 

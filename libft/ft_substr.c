@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/13 23:47:57 by wquinoa          ###   ########.fr       */
+/*   Created: 2020/04/29 15:42:55 by wquinoa           #+#    #+#             */
+/*   Updated: 2020/07/13 14:29:23 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <dirent.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "libft/libft.h"
-# define SHELL "42sh-0.1$ "
+#include "libft.h"
 
-typedef struct	s_en
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char		*name;
-	char		*value;
-	struct s_en	*next;
-}				t_env;
+	char	*d;
+	size_t	size;
 
-typedef struct	s_shell
-{
-	char		**environ;
-	char		**split;
-	char		*str;
-	char		*cwd;
-}				t_shell;
-
-
-#endif
+	if (!s)
+		return (NULL);
+	size = (ft_strlen(s + start));
+	size = (size > len) ? len : size;
+	if (!(d = (char *)malloc((size + 1) * sizeof(char))))
+		return (NULL);
+	ft_strlcpy(d, &s[start], size + 1);
+	return (d);
+}
