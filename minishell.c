@@ -6,22 +6,25 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/14 00:23:27 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/15 22:23:22 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-const int	echo(t_shell *shell)
+int	echo(t_shell *shell)
 {
-	char **words;
-	int i;
-	int flag;
+	char	**words;
+	int		i;
+	int		flag;
+	pid_t	proc;
 
 	words = shell->split;
-	if(words[1])
+	flag = 0;
+	if (words[1])
 	{
-		i = ((flag = ft_strncmp(words[1], "-n", 3)) == 0);
+		flag = ft_strncmp(words[1], "-n", 3);
+		i = (flag == 0);
 		while (words[++i])
 		{
 			ft_putstr_fd(words[i], 1);
@@ -29,9 +32,10 @@ const int	echo(t_shell *shell)
 		}
 	}
 	return (write(1, flag ? "\n" : "", 1));
+	return (0);
 }
 
-const int	cd(t_shell *shell)
+int	cd(t_shell *shell)
 {
 	char *res;
 
@@ -47,7 +51,7 @@ const int	cd(t_shell *shell)
 	return (0);
 }
 
-const int	pwd(t_shell * shell)
+int	pwd(t_shell *shell)
 {
 	if (shell->cwd)
 		free(shell->cwd);
@@ -56,69 +60,68 @@ const int	pwd(t_shell * shell)
 	return (0);
 }
 
-const int	export()
+int	export(void)
 {
 	return (write(1, "ecport\n", 7));
 }
 
-const int	unset()
+int	unset(void)
 {
 	return (write(1, "unset\n", 6));
 }
 
-const int	env(t_shell *shell)
+int	env(t_shell *shell)
 {
-	char **env = shell->environ;
+	char **env;
 
+	env = shell->environ;
 	while (*env)
 		ft_putendl_fd(*(env++), 1);
 	return (0);
 }
 
-const int	ls(t_shell *shell)
-{
-	DIR				*dirr;
-	struct dirent	*curr;
-	int				i;
-
-	i = -1;
-	dirr = opendir(shell->cwd);
-	while ((curr = readdir(dirr)))
-		curr->d_name[0] != '.' ? ft_putendl_fd(curr->d_name, 1) : 0;
-	closedir(dirr);
-	return (0);
-}
-
-const int	ft_exit()
+int	ft_exit(void)
 {
 	write(1, "exit\n", 5);
 	exit(0);
 	return (0);
 }
 
+void	search(t_shell *shell)
+{
+	int pid;
+
+	pid = fork();
+	wait(NULL);
+	if (pid == 0)
+	{
+		execvp(shell->split[0], &shell->split[0]);
+		//perror(shell->split[0]);
+		ft_printf("42sh: %s: command not found\n", shell->split[0]);
+		exit(1);
+	}
+}
+
+
 void	parse_args(char **tab, char *str, t_shell *shell)
 {
-	const char	*args[9] = {"echo", "cd", "pwd", "ls", "export", "unset",
-						"env", "exit", NULL};
-	const int	(*funcs[8])() = {&echo, &cd, &pwd, &ls, &export, &unset,
-						&env, &ft_exit};
+	static int	(*funcs[8])() = {&echo, &cd, &pwd, &export, &unset, &env, &ft_exit};
+	const char	*ar[9] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", 0};
 	int			i;
 
 	if (!tab || !*tab)
 		return ;
 	i = -1;
-	while (args[++i])
+	while (ar[++i])
 	{
-		if (!ft_strncmp(args[i], tab[0], 5))
+		if (!ft_strncmp(ar[i], tab[0], 5))
 		{
 			funcs[i](shell);
 			return ;
 		}
 	}
+	search(shell);	
 	i = -1;
-	while (ft_isspace(*str))
-		str++;
-	ft_printf("42sh: %s: command not found\n", str);
 }
 
 void	minishell(t_shell *shell)
@@ -127,26 +130,32 @@ void	minishell(t_shell *shell)
 
 	while (1)
 	{
+		ft_putstr_fd(SHELL, 1);
 		if (get_next_line(1, &str))
 		{
-			//parse_argv(str);
 			parse_args((shell->split = ft_split(str, ' ')), str, shell);
 			ft_tabclear(shell->split);
 			free(str);
 		}
-		ft_putstr_fd(SHELL, 1);
 	}
 }
 
-int main(int ac, char **av, char **environ)
+int		main(int ac, char **av, char **environ)
 {
 	t_shell	shell;
 	t_env	*envir;
+	char	**tmp;
 
+	tmp = environ;
+	if (ac)
+		ft_printf("\n%s by wquinoa and jalvaro\n\n", &av[0][2]);
 	ft_bzero(&shell, sizeof(shell));
 	shell.environ = environ;
+	while (*tmp)
+	{
+		envir = ft_envnew(*(tmp++));
+		ft_envdelone(envir);
+	}
 	shell.cwd = getcwd(NULL, 42);
-	chdir(shell.cwd);
-	ft_putstr_fd(SHELL, 1);
 	minishell(&shell);
 }
