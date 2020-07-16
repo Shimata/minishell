@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 21:05:26 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/16 18:31:50 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 23:36:17 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void					*ft_del(void *content);
 */
 
 size_t					ft_tablen(char **tab);
-void					ft_tabclear(char **tab);
+char					**ft_tabclear(char **tab);
 char					**ft_tabmap(char **tab, char *(*f)(const char *));
 char					*ft_strjoin_dlm(char *s1, char *s2, char *s3);
 char					*ft_join(char **tab, char *dlm);

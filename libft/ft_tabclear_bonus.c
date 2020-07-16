@@ -6,18 +6,18 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/07 08:05:53 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/06/17 15:18:54 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 23:38:14 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_tabclear(char **tab)
+char		**ft_tabclear(char **tab)
 {
 	int		i;
 
 	if (!tab)
-		return ;
+		return (NULL);
 	i = -1;
 	while (tab[++i])
 	{
@@ -28,5 +28,5 @@ void		ft_tabclear(char **tab)
 		}
 	}
 	free(tab);
-	tab = NULL;
+	return (NULL);
 }

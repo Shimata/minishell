@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/16 21:19:17 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 23:34:37 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	parse_args(char **tab, char *str, t_shell *shell)
 			return ;
 		}
 	}
-	search(shell);	
+	search(shell);
 	i = -1;
 }
 
@@ -176,16 +176,12 @@ int		main(int ac, char **av, char **environ)
 		ft_printf("\n%s by wquinoa and jalvaro\n\n", &av[0][2]);
 	ft_bzero(&shell, sizeof(shell));
 	shell.environ = environ;
+	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)
 	{
 		if (!ft_strncmp(*environ, "PATH", 4))
 			shell.path = ft_split(&environ[0][5], ':');
-		environ ++;
-	}
-	while (*tmp)
-	{
-		envir = ft_envnew(*(tmp++));
-		ft_envdelone(envir);
+		environ++;
 	}
 	shell.cwd = getcwd(NULL, 42);
 	minishell(&shell);

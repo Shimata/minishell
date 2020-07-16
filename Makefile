@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
+#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/16 21:23:13 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/16 23:39:39 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 #+----------------------------------------------------------------------------------------------------------------------+#
 
 SRCS :=			minishell.c		env.c
-				
+
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Utilities                                                                                                         |#
@@ -57,10 +57,10 @@ CF = -Wall -Wextra -Werror
 #.ONESHELL:
 ifdef WITH_BONUS
 OBJ_FILES = $(addprefix $(BIN)/, $(OBJ)) $(addprefix $(BIN)/, $(BSRCS:c=o))
-vpath %.c ./src 
+vpath %.c ./src
 else
 OBJ_FILES = $(addprefix $(BIN)/, $(OBJ))
-vpath %.c ./src 
+vpath %.c ./src
 endif
 
 #+----------------------------------------------------------------------------------------------------------------------+#
@@ -73,7 +73,7 @@ bonus:
 	@$(MAKE) 'WITH_BONUS = true' all
 
 $(NAME): $(S_FILES)
-	gcc $^ libft.a -o $(NAME) 
+	gcc $^ libft/libft.a -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
 ifeq ($(WITH_BONUS),true)
 	@echo "	$(WHT1)...added $(GRN1)ft_printf$(WHT)\n"
