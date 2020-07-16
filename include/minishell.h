@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/15 22:23:27 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 18:16:48 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/stat.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # define SHELL "\033[32m➜  \033[34;1mb42h-0.1\033[0m$ "
 
 typedef struct	s_en

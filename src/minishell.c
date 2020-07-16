@@ -6,18 +6,17 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/15 22:23:22 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 18:15:33 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	echo(t_shell *shell)
 {
 	char	**words;
 	int		i;
 	int		flag;
-	pid_t	proc;
 
 	words = shell->split;
 	flag = 0;
@@ -32,7 +31,6 @@ int	echo(t_shell *shell)
 		}
 	}
 	return (write(1, flag ? "\n" : "", 1));
-	return (0);
 }
 
 int	cd(t_shell *shell)
@@ -95,7 +93,7 @@ void	search(t_shell *shell)
 	wait(NULL);
 	if (pid == 0)
 	{
-		execvp(shell->split[0], &shell->split[0]);
+		execve(shell->split[0], &shell->split[0], shell->environ);
 		//perror(shell->split[0]);
 		ft_printf("42sh: %s: command not found\n", shell->split[0]);
 		exit(1);
@@ -111,6 +109,7 @@ void	parse_args(char **tab, char *str, t_shell *shell)
 
 	if (!tab || !*tab)
 		return ;
+	(void)str;
 	i = -1;
 	while (ar[++i])
 	{

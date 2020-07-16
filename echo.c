@@ -1,5 +1,0 @@
-void	echo()
-{
-	char *str;
-
-}
