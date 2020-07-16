@@ -6,7 +6,7 @@
 #    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/16 18:15:18 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/16 21:23:13 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,8 @@ GRN1 = \033[32;1m#															#
 RED1 = \033[31;1m#															#
 DRK = \033[2m#																#
 MADE_MSG = \n	$(WHT1)Created $(GRN1)#										#
-DEL_MSG = \n	$(WHT1)No more $(DRK)$(RED1)#								#
+DEL_MSG = \n	$(WHT1)Removed $(DRK)$(RED1)#								#
 ERROR_MSG = "\n	$(WHT1)$(DRK)Nothing to $@\n"#								#
-REPLACE =  2>&1| awk '{sub(/.\//,"  $(WHT) $(DRK)removed $(RED)")}1'
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Good stuff                                                                                                        |#
@@ -85,9 +84,9 @@ endif
 #+----------------------------------------------------------------------------------------------------------------------+#
 
 clean:
-	@if test -d $(BIN); \
-	then rm -rfvd $(BIN) $(REPLACE); \
-	echo "$(DEL_MSG).o files$(WHT)\n"; \
+	@if test -f $(NAME); \
+	then rm -rf $(NAME); \
+	echo "$(DEL_MSG)$(NAME)$(WHT)\n"; \
 	else echo $(ERROR_MSG); \
 	fi
 

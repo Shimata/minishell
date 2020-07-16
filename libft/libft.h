@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 21:05:26 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/13 20:34:27 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 18:31:50 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char					*ft_strrchr(const char *s, int c);
 char					*ft_strnstr(const char *haystack,
 								const char *needle, size_t len);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
+int						ft_strcmp(const char *s1, const char *s2);
 int						ft_atoi(const char *str);
 void					*ft_calloc(size_t count, size_t size);
 char					*ft_strdup(char const *s);

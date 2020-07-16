@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/16 18:15:33 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/16 21:19:17 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,41 @@ int	ft_exit(void)
 
 void	search(t_shell *shell)
 {
-	int pid;
+	DIR			*dirp;
+	t_dirent	*entry;
+	int			pid;
 
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
 	{
-		execve(shell->split[0], &shell->split[0], shell->environ);
-		//perror(shell->split[0]);
+		if (ft_isalpha(shell->split[0][0]))
+		{
+			while (*shell->path)
+			{
+				dirp = opendir(*shell->path);
+				while ((entry = readdir(dirp)))
+					if (!ft_strcmp(entry->d_name, shell->split[0]))
+						if (!(shell->cmd = ft_strjoin_dlm(*shell->path, "/" ,shell->split[0])))
+							return ;
+				shell->path++;
+				closedir(dirp);
+			}
+		}
+		else if (!ft_strncmp("./", shell->split[0], 2))
+		{
+			dirp = opendir(shell->cwd);
+			while ((entry = readdir(dirp)))
+				if (ft_strcmp(entry->d_name, shell->split[0]))
+					shell->cmd = ft_strjoin(shell->cwd, &shell->split[0][1]);
+			closedir(dirp);
+		}
+		execve(shell->cmd, &shell->split[0], shell->environ);
+		if (shell->cmd)
+			free (shell->cmd);
+		shell->cmd = NULL;
 		ft_printf("42sh: %s: command not found\n", shell->split[0]);
+		//perror(shell->split[0]);
 		exit(1);
 	}
 }
@@ -150,6 +176,12 @@ int		main(int ac, char **av, char **environ)
 		ft_printf("\n%s by wquinoa and jalvaro\n\n", &av[0][2]);
 	ft_bzero(&shell, sizeof(shell));
 	shell.environ = environ;
+	while (*environ)
+	{
+		if (!ft_strncmp(*environ, "PATH", 4))
+			shell.path = ft_split(&environ[0][5], ':');
+		environ ++;
+	}
 	while (*tmp)
 	{
 		envir = ft_envnew(*(tmp++));
