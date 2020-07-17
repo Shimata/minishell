@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 21:48:15 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 22:28:33 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	search(t_shell *shell)
 				closedir(dirp);
 			}
 		}
-		else if (!ft_strncmp("./", shell->split[0], 2))
+		if (!ft_strncmp("./", shell->split[0], 2) || shell->split[0][0] == '/')
 		{
 			dirp = opendir(shell->cwd);
 			while ((entry = readdir(dirp)))
@@ -168,9 +168,14 @@ void	minishell(t_shell *shell)
 		ft_putstr_fd(SHELL, 1);
 		if (!(prs = parse_start(shell->envir)))
 			exit (0);
-		shell->split = prs->arg;
-		parse_args(prs->arg, NULL, shell);
-		//prslst_free(prs);
+		shell->cmds = prs;
+		while (prs)
+		{
+			shell->split = prs->arg;
+			parse_args(prs->arg, NULL, shell);
+			prs = prs->next;
+		}
+		prslst_free(shell->cmds);
 	}
 }
 

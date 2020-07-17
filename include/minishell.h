@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 22:41:18 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/17 22:11:09 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <string.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/stat.h>
@@ -32,15 +33,14 @@ typedef struct	s_en
 	struct s_en	*prev;
 }				t_env;
 
-typedef struct  s_prs
+typedef struct	s_pr
 {
-	char		 **arg;
-	char		 command;
-	int			 dbl;
-	struct s_prs *next;
-	struct s_prs *prev;
+	char		**arg;
+	char		command;
+	int			dbl;
+	struct s_pr	*next;
+	struct s_pr	*prev;
 }				t_prs;
-
 
 typedef struct	s_shell
 {
@@ -51,6 +51,7 @@ typedef struct	s_shell
 	char		*cwd;
 	char		*cmd;
 	char		**path;
+	t_prs		*cmds;
 }				t_shell;
 
 t_env			*ft_envnew(char *content);
