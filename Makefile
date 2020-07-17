@@ -6,7 +6,7 @@
 #    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/16 23:39:39 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/17 00:08:32 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,9 @@ WHT1 = \033[0;1m#															#
 GRN1 = \033[32;1m#															#
 RED1 = \033[31;1m#															#
 DRK = \033[2m#																#
-MADE_MSG = \n	$(WHT1)Created $(GRN1)#										#
-DEL_MSG = \n	$(WHT1)Removed $(DRK)$(RED1)#								#
-ERROR_MSG = "\n	$(WHT1)$(DRK)Nothing to $@\n"#								#
+MADE_MSG = \r   $(WHT1)Created $(GRN1)#										#
+DEL_MSG = \n   $(WHT1)Removed $(DRK)$(RED1)#								#
+ERROR_MSG = "\n   $(WHT1)$(DRK)Nothing to $@\n"#							#
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Good stuff                                                                                                        |#
@@ -39,7 +39,6 @@ ERROR_MSG = "\n	$(WHT1)$(DRK)Nothing to $@\n"#								#
 NAME = minishell
 BIN = ./obj
 S_DIR = ./src
-
 S_FILES = $(addprefix $(S_DIR)/, $(SRCS))
 
 HEAD = $(NAME:a=h)
@@ -47,7 +46,7 @@ OBJ = $(SRCS:c=o)
 BOBJ = $(B_FILES:c=o)
 CC = gcc
 CF = -Wall -Wextra -Werror
-.PHONY: all bonus clean fclean re
+.PHONY: all libft bonus clean fclean re
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Conditionals                                                                                                      |#
@@ -72,18 +71,22 @@ all: $(NAME)
 bonus:
 	@$(MAKE) 'WITH_BONUS = true' all
 
-$(NAME): $(S_FILES)
-	gcc $^ libft/libft.a -o $(NAME)
+$(NAME): $(S_FILES) | libft
+	@gcc $^ libft/libft.a -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
 ifeq ($(WITH_BONUS),true)
 	@echo "	$(WHT1)...added $(GRN1)ft_printf$(WHT)\n"
 endif
+
+libft:
+	@$(MAKE) -C libft bonus
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Trash removal rules                                                                                               |#
 #+----------------------------------------------------------------------------------------------------------------------+#
 
 clean:
+	@$(MAKE) -C libft clean
 	@if test -f $(NAME); \
 	then rm -rf $(NAME); \
 	echo "$(DEL_MSG)$(NAME)$(WHT)\n"; \
@@ -91,6 +94,7 @@ clean:
 	fi
 
 fclean: clean
+	@$(MAKE) -C libft fclean
 	@if test -f $(NAME); \
 	then rm -rfv ./$(NAME) $(REPLACE); \
 	rm -rf a.out; \

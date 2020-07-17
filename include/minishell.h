@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/16 20:52:25 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 15:05:09 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct	s_shell
 	char		**path;
 }				t_shell;
 
-t_env		*ft_envnew(char *content);
-t_env		*ft_envdelone(t_env *env);
+t_env			*ft_envnew(char *content);
+t_env			*ft_env_push_back(t_env** env, t_env *new);
+t_env			*ft_envdelone(t_env *env);
 
 #endif

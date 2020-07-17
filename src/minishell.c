@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/16 23:34:37 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 15:07:33 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	search(t_shell *shell)
 	wait(NULL);
 	if (pid == 0)
 	{
-		if (ft_isalpha(shell->split[0][0]))
+		if (ft_isalnum(shell->split[0][0]))
 		{
 			while (*shell->path)
 			{
@@ -120,8 +120,8 @@ void	search(t_shell *shell)
 		if (shell->cmd)
 			free (shell->cmd);
 		shell->cmd = NULL;
-		ft_printf("42sh: %s: command not found\n", shell->split[0]);
-		//perror(shell->split[0]);
+		ft_printf("b42h: %s: command not found\n", shell->split[0]);
+		perror(shell->split[0]);
 		exit(1);
 	}
 }
@@ -168,8 +168,8 @@ void	minishell(t_shell *shell)
 int		main(int ac, char **av, char **environ)
 {
 	t_shell	shell;
-	t_env	*envir;
 	char	**tmp;
+	t_env	*etmp = NULL;
 
 	tmp = environ;
 	if (ac)
@@ -179,9 +179,16 @@ int		main(int ac, char **av, char **environ)
 	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)
 	{
+		ft_env_push_back(&etmp, ft_envnew(*environ));
 		if (!ft_strncmp(*environ, "PATH", 4))
 			shell.path = ft_split(&environ[0][5], ':');
 		environ++;
+	}
+	etmp = shell.envir;
+	while (etmp)
+	{
+		ft_printf("%s=%s\n\n", etmp->name, etmp->value);
+		etmp = etmp->next;
 	}
 	shell.cwd = getcwd(NULL, 42);
 	minishell(&shell);

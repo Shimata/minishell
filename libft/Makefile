@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
+#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/16 18:32:07 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/17 01:07:30 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS :=			ft_atoi.c			ft_bzero.c			ft_calloc.c			ft_isalnum.c		ft_isalpha.c			\
 				ft_tabclear_bonus.c	ft_tablen_bonus.c	ft_tabmap_bonus.c	get_next_line.c
 
 BSRCS :=		ft_math.c			ft_print.c			ft_printf.c			ft_putnbr_basep.c		\
-				
+
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Utilities                                                                                                         |#
@@ -40,8 +40,8 @@ WHT1 = \033[0;1m#															#
 GRN1 = \033[32;1m#															#
 RED1 = \033[31;1m#															#
 DRK = \033[2m#																#
-MADE_MSG = \n	$(WHT1)Created $(GRN1)#										#
-DEL_MSG = \n	$(WHT1)No more $(DRK)$(RED1)#								#
+MADE_MSG = \n   $(WHT1)Created $(GRN1)#										#
+DEL_MSG = \n   $(WHT1)Removed $(DRK)$(RED1)#								#
 ERROR_MSG = "\n	$(WHT1)$(DRK)Nothing to $@\n"#								#
 REPLACE =  2>&1| awk '{sub(/.\//,"  $(WHT) $(DRK)removed $(RED)")}1'
 
@@ -59,6 +59,7 @@ OBJ = $(SRCS:c=o)
 BOBJ = $(B_FILES:c=o)
 CC = gcc
 CF = -Wall -Wextra -Werror
+vpath %.c ./ $(BDIR)
 .PHONY: all bonus clean fclean re
 
 #+----------------------------------------------------------------------------------------------------------------------+#
@@ -69,7 +70,6 @@ CF = -Wall -Wextra -Werror
 #.ONESHELL:
 ifdef WITH_BONUS
 OBJ_FILES = $(addprefix $(BIN)/, $(OBJ)) $(addprefix $(BIN)/, $(BSRCS:c=o))
-vpath %.c ./ $(BDIR)
 else
 OBJ_FILES = $(addprefix $(BIN)/, $(OBJ))
 endif
@@ -85,9 +85,9 @@ bonus:
 
 $(NAME): $(OBJ_FILES)
 	@ar rcs $(NAME) $^
-	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
+	@echo "$(MADE_MSG)$(NAME)$(WHT)"
 ifeq ($(WITH_BONUS),true)
-	@echo "	$(WHT1)...added $(GRN1)ft_printf$(WHT)\n"
+	@echo "$(WHT1)   added   $(GRN1)ft_printf$(WHT)"
 endif
 
 #+----------------------------------------------------------------------------------------------------------------------+#
@@ -96,11 +96,11 @@ endif
 
 $(BIN):
 	@mkdir $(BIN)
-	@echo "$(MADE_MSG) $@$(WHT)\n"
+	@printf "$(MADE_MSG) %-42s$(WHT)\r" $@
 
 $(BIN)/%.o: %.c $(HEAD) | $(BIN)
 	@$(CC) -I./ $< -c $(CF) -o $@
-	@echo "   Adding $(DRK)$(GRN)$@...$(WHT)"
+	@printf "   Adding $(DRK)$(GRN) %-42s$(WHT)\r" "$@..."
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Trash removal rules                                                                                               |#
