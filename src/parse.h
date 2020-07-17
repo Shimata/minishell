@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 22:41:18 by jalvaro          ###   ########.fr       */
+/*   Created: 2020/07/17 10:59:20 by jalvaro           #+#    #+#             */
+/*   Updated: 2020/07/17 22:37:09 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <dirent.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <sys/stat.h>
-# include <sys/errno.h>
-# include "../libft/libft.h"
-# define SHELL "\033[32m➜  \033[34;1mb42h-0.1\033[0m$ "
+#ifndef PARSE_H
+# define PARSE_H
 
-typedef struct dirent t_dirent;
+#include <stdio.h>
+#include <stdlib.h>
+#include "../libft/libft.h"
 
 typedef struct	s_en
 {
@@ -34,30 +27,13 @@ typedef struct	s_en
 
 typedef struct  s_prs
 {
-	char		 **arg;
-	char		 command;
-	int			 dbl;
-	struct s_prs *next;
-	struct s_prs *prev;
+	char			**arg;
+	char			command;
+	int				dbl;
+	struct s_prs	*next;
+	struct s_prs	*prev;
 }				t_prs;
 
-
-typedef struct	s_shell
-{
-	char		**environ;
-	char		**split;
-	t_env		*envir;
-	char		*str;
-	char		*cwd;
-	char		*cmd;
-	char		**path;
-}				t_shell;
-
-t_env			*ft_envnew(char *content);
-t_env			*ft_envlast(t_env *env);
-t_env			*ft_env_push_back(t_env** env, t_env *new);
-t_env			*ft_find_env(t_env *env, char* key);
-t_env			*ft_envdelone(t_env *env);
 
 char			*env_paste(t_env **beg, char *str);
 t_prs			*parse_start(t_env *env);

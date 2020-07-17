@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 20:32:08 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 22:53:19 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	echo(t_shell *shell)
 {
@@ -158,8 +158,11 @@ void	parse_args(char **tab, char *str, t_shell *shell)
 void	minishell(t_shell *shell)
 {
 	char	*str;
+	t_prs	*prs;
 
-	while (1)
+	if (!(prs = parse_start(shell->envir)))
+		exit (0);
+	/*while (1)
 	{
 		ft_putstr_fd(SHELL, 1);
 		if (get_next_line(1, &str))
@@ -168,7 +171,7 @@ void	minishell(t_shell *shell)
 			ft_tabclear(shell->split);
 			free(str);
 		}
-	}
+	}*/
 }
 
 int		main(int ac, char **av, char **environ)

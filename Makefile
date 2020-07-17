@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/17 20:32:58 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/17 22:54:27 by jalvaro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #|    Source files                                                                                                      |#
 #+----------------------------------------------------------------------------------------------------------------------+#
 
-SRCS :=			minishell.c		env.c
+SRCS :=			minishell.c	env.c env_paste.c parse_args.c parse_utils.c
 
 
 #+----------------------------------------------------------------------------------------------------------------------+#
@@ -72,7 +72,7 @@ bonus:
 	@$(MAKE) 'WITH_BONUS = true' all
 
 $(NAME): $(S_FILES) | libft
-	@gcc $^ libft/libft.a -o $(NAME)
+	@gcc $^ ./libft/libft.a -I ./include -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
 	@./$(NAME)
 ifeq ($(WITH_BONUS),true)
