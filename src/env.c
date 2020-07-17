@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 15:14:08 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 19:11:31 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,20 @@ t_env		*ft_envnew(char *content)
 	t_env	*new_env;
 	char	*delim;
 
-	if (!(new_env = (t_env *)ft_calloc(1, sizeof(t_env))))
+	if (!(new_env = (t_env *)malloc(sizeof(t_env))))
 		return (NULL);
 	delim = ft_strchr(content, '=');
 	new_env->name = ft_substr(content, 0, (delim -  content));
 	new_env->value = ft_strdup(delim + 1);
 	if (!new_env->name || !new_env->value)
 		return (ft_envdelone(new_env));
+	new_env->next = NULL;
+	new_env->prev = NULL;
 	return (new_env);
 }
 
 /*
-**	Finds an env member by name. If name is NULL
+**	Finds an env entry by name. If name is NULL
 **	returns a pointer to the last list element.
 */
 
@@ -119,17 +121,13 @@ t_env		*ft_env_push_back(t_env** env, t_env *new)
 	t_env	*tmp;
 
 	tmp = *env;
-	if (!tmp)
-		tmp = new;
+	if (!*env)
+		*env = new;
 	else
 	{
-		tmp = ft_find_env(tmp, NULL);
-		tmp->next = new;
-		if (new)
-		{
-			new->prev = tmp;
+		while (tmp->next)
 			tmp = tmp->next;
-		}
+		tmp->next = new;
 	}
 	return (tmp);
 }

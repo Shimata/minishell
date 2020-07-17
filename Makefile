@@ -6,7 +6,7 @@
 #    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/17 00:08:32 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/17 20:32:58 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,7 @@ bonus:
 $(NAME): $(S_FILES) | libft
 	@gcc $^ libft/libft.a -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
+	@./$(NAME)
 ifeq ($(WITH_BONUS),true)
 	@echo "	$(WHT1)...added $(GRN1)ft_printf$(WHT)\n"
 endif

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 15:05:09 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 20:16:05 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/stat.h>
+# include <sys/errno.h>
 # include "../libft/libft.h"
 # define SHELL "\033[32m➜  \033[34;1mb42h-0.1\033[0m$ "
 
@@ -43,7 +44,9 @@ typedef struct	s_shell
 }				t_shell;
 
 t_env			*ft_envnew(char *content);
+t_env			*ft_envlast(t_env *env);
 t_env			*ft_env_push_back(t_env** env, t_env *new);
+t_env			*ft_find_env(t_env *env, char* key);
 t_env			*ft_envdelone(t_env *env);
 
 #endif

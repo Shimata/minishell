@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 15:07:33 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/17 20:32:08 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,18 @@ int	echo(t_shell *shell)
 
 int	cd(t_shell *shell)
 {
-	char *res;
+	char		*res;
+	const int	err[8] = {EACCES, EFAULT, EIO, ELOOP, ENAMETOOLONG, ENOENT, ENOTDIR};
 
 	if (!shell->split[1])
 		return (write(1, "\n", 1));
-	if (!ft_strncmp(shell->split[1], "..", 3))
-		res = "../";
+	else if (shell->split[1][0] == '~')
+		res = ft_find_env(shell->envir, "HOME")->value;
 	else
 		res = shell->split[1];
 	chdir(res);
+	if (ft_memchr(err, errno, sizeof(err)))
+		perror("cd");
 	free(shell->cwd);
 	shell->cwd = getcwd(NULL, 42);
 	return (0);
@@ -70,11 +73,14 @@ int	unset(void)
 
 int	env(t_shell *shell)
 {
-	char **env;
+	t_env *env;
 
-	env = shell->environ;
-	while (*env)
-		ft_putendl_fd(*(env++), 1);
+	env = shell->envir;
+	while (env)
+	{
+		ft_printf("%s=%s\n", env->name, env->value);
+		env = env->next;
+	}
 	return (0);
 }
 
@@ -117,11 +123,11 @@ void	search(t_shell *shell)
 			closedir(dirp);
 		}
 		execve(shell->cmd, &shell->split[0], shell->environ);
+		perror(shell->split[0]);
 		if (shell->cmd)
 			free (shell->cmd);
 		shell->cmd = NULL;
 		ft_printf("b42h: %s: command not found\n", shell->split[0]);
-		perror(shell->split[0]);
 		exit(1);
 	}
 }
@@ -169,26 +175,15 @@ int		main(int ac, char **av, char **environ)
 {
 	t_shell	shell;
 	char	**tmp;
-	t_env	*etmp = NULL;
 
 	tmp = environ;
 	if (ac)
-		ft_printf("\n%s by wquinoa and jalvaro\n\n", &av[0][2]);
+		ft_printf("\n%s by wquinoa and jalvaro\n\n", ft_strrchr(av[0], '/') + 1);
 	ft_bzero(&shell, sizeof(shell));
-	shell.environ = environ;
 	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)
 	{
-		ft_env_push_back(&etmp, ft_envnew(*environ));
-		if (!ft_strncmp(*environ, "PATH", 4))
-			shell.path = ft_split(&environ[0][5], ':');
-		environ++;
-	}
-	etmp = shell.envir;
-	while (etmp)
-	{
-		ft_printf("%s=%s\n\n", etmp->name, etmp->value);
-		etmp = etmp->next;
+		ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
 	}
 	shell.cwd = getcwd(NULL, 42);
 	minishell(&shell);
