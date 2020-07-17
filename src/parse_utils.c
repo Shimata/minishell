@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 22:30:18 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/17 22:45:41 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/17 21:45:06 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ char	**free_arr(char **arr)
 
 	i = 0;
 	while (arr && arr[i])
+	{
 		free(arr[i]);
+		i++;
+	}
 	return (0);
 }
 

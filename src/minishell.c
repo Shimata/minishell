@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 22:53:19 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/17 21:48:15 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	echo(t_shell *shell)
 int	cd(t_shell *shell)
 {
 	char		*res;
-	const int	err[8] = {EACCES, EFAULT, EIO, ELOOP, ENAMETOOLONG, ENOENT, ENOTDIR};
+	int			i = -1;
+	const int	err[9] = {EACCES, EFAULT, EIO, ELOOP,
+	ENAMETOOLONG, ENOENT, ENOTDIR, 0};
 
 	if (!shell->split[1])
 		return (write(1, "\n", 1));
@@ -45,8 +47,9 @@ int	cd(t_shell *shell)
 	else
 		res = shell->split[1];
 	chdir(res);
-	if (ft_memchr(err, errno, sizeof(err)))
-		perror("cd");
+	while (err[++i])
+		if (errno == err[i])
+			perror("cd");
 	free(shell->cwd);
 	shell->cwd = getcwd(NULL, 42);
 	return (0);
@@ -160,18 +163,15 @@ void	minishell(t_shell *shell)
 	char	*str;
 	t_prs	*prs;
 
-	if (!(prs = parse_start(shell->envir)))
-		exit (0);
-	/*while (1)
+	while (1)
 	{
 		ft_putstr_fd(SHELL, 1);
-		if (get_next_line(1, &str))
-		{
-			parse_args((shell->split = ft_split(str, ' ')), str, shell);
-			ft_tabclear(shell->split);
-			free(str);
-		}
-	}*/
+		if (!(prs = parse_start(shell->envir)))
+			exit (0);
+		shell->split = prs->arg;
+		parse_args(prs->arg, NULL, shell);
+		//prslst_free(prs);
+	}
 }
 
 int		main(int ac, char **av, char **environ)
@@ -186,6 +186,8 @@ int		main(int ac, char **av, char **environ)
 	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)
 	{
+		if (!ft_strncmp("PATH=", *environ, 5))
+			shell.path = ft_split(*environ + 5, ':');
 		ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
 	}
 	shell.cwd = getcwd(NULL, 42);

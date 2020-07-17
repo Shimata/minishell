@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/17 22:45:38 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/17 21:41:37 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*two_quote(t_env *env, char *str, char **buf)
 		if ((*buf)[0] == '\n')
 			write(1, "> ", 2);
 	}
+	read(0, *buf, 1);
 	if (!str)
 		str = ft_strdup("");
 	if (!str)
@@ -38,6 +39,7 @@ char	*one_qoute(char *str, char **buf)
 		if ((*buf)[0] == '\n')
 			write(1, "> ", 2);
 	}
+	read(0, *buf, 1);
 	if (!str)
 		str = ft_strdup("");
 	if (!str)
