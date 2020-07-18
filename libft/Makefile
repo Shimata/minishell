@@ -6,7 +6,7 @@
 #    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/17 01:07:30 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/18 03:59:07 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ SRCS :=			ft_atoi.c			ft_bzero.c			ft_calloc.c			ft_isalnum.c		ft_isalpha.c			\
 				ft_strrchr.c		ft_strtrim.c		ft_substr.c			ft_tolower.c		ft_toupper.c			\
 				ft_putchar_fd.c		ft_putendl_fd.c		ft_putnbr_fd.c		ft_putstr_fd.c		ft_strcmp.c				\
 				ft_lstadd_back.c	ft_lstadd_front.c	ft_lstclear.c		ft_lstdelone.c		ft_lstiter.c			\
-				ft_lstlast.c		ft_lstmap.c			ft_lstnew.c			ft_lstsize.c								\
-				ft_del_bonus.c		ft_isspace_bonus.c	ft_join_bonus.c		ft_strjoin_dlm_bonus.c						\
+				ft_lstlast.c		ft_lstmap.c			ft_lstnew.c			ft_lstsize.c		ft_fput.c				\
+				ft_del_bonus.c		ft_isspace_bonus.c	ft_join_bonus.c		ft_strjoin_dlm.c							\
 				ft_tabclear_bonus.c	ft_tablen_bonus.c	ft_tabmap_bonus.c	get_next_line.c
 
 BSRCS :=		ft_math.c			ft_print.c			ft_printf.c			ft_putnbr_basep.c		\
@@ -41,8 +41,8 @@ GRN1 = \033[32;1m#															#
 RED1 = \033[31;1m#															#
 DRK = \033[2m#																#
 MADE_MSG = \n   $(WHT1)Created $(GRN1)#										#
-DEL_MSG = \n   $(WHT1)Removed $(DRK)$(RED1)#								#
-ERROR_MSG = "\n	$(WHT1)$(DRK)Nothing to $@\n"#								#
+DEL_MSG = \r   $(WHT1)Removed $(DRK)$(RED1)#								#
+ERROR_MSG = "\n   $(WHT1)$(DRK)Nothing to $@$(WHT)\n"#						#
 REPLACE =  2>&1| awk '{sub(/.\//,"  $(WHT) $(DRK)removed $(RED)")}1'
 
 #+----------------------------------------------------------------------------------------------------------------------+#
@@ -59,7 +59,6 @@ OBJ = $(SRCS:c=o)
 BOBJ = $(B_FILES:c=o)
 CC = gcc
 CF = -Wall -Wextra -Werror
-vpath %.c ./ $(BDIR)
 .PHONY: all bonus clean fclean re
 
 #+----------------------------------------------------------------------------------------------------------------------+#
@@ -109,16 +108,14 @@ $(BIN)/%.o: %.c $(HEAD) | $(BIN)
 clean:
 	@if test -d $(BIN); \
 	then rm -rfvd $(BIN) $(REPLACE); \
-	echo "$(DEL_MSG).o files$(WHT)\n"; \
-	else echo $(ERROR_MSG); \
+	echo "\n$(DEL_MSG).o files$(WHT)"; \
 	fi
 
 fclean: clean
 	@if test -f $(NAME); \
 	then rm -rfv ./$(NAME) $(REPLACE); \
 	rm -rf a.out; \
-	echo "$(DEL_MSG) lib$(WHT)\n"; \
-	else echo $(ERROR_MSG); \
+	echo "$(DEL_MSG)$(NAME)$(WHT)"; \
 	fi
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 01:43:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/18 03:44:20 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	env(t_shell *shell)
 	env = shell->envir;
 	while (env)
 	{
-		ft_printf("%s=%s\n", env->name, env->value);
+		ft_fput("%s=%s\n", env->name, env->value, 1);
 		env = env->next;
 	}
 	ft_putendl_fd(shell->cmd, 1);
@@ -168,8 +168,7 @@ void	minishell(t_shell *shell)
 	while (1)
 	{
 		ft_putstr_fd(SHELL, 1);
-		if (!(prs = parse_start(shell->envir)))
-			exit (0);
+		!((prs = parse_start(shell->envir))) ? exit (0) : 0;
 		shell->cmds = prs;
 		while (prs)
 		{
@@ -188,7 +187,7 @@ int		main(int ac, char **av, char **environ)
 
 	tmp = environ;
 	if (ac)
-		ft_printf("\n%s by wquinoa and jalvaro\n\n", ft_strrchr(av[0], '/') + 1);
+		ft_fput("\n%s by wquinoa and jalvaro\n\n", ft_strrchr(av[0], '/') + 1, 0, 1);
 	ft_bzero(&shell, sizeof(shell));
 	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)

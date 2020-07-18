@@ -3,76 +3,60 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/17 22:54:27 by jalvaro          ###   ########.fr        #
+#    Updated: 2020/07/18 03:57:37 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#+----------------------------------------------------------------------------------------------------------------------+#
-#|    Source files                                                                                                      |#
-#+----------------------------------------------------------------------------------------------------------------------+#
-
+#	Source files
 SRCS :=			minishell.c	env.c env_paste.c parse_args.c parse_utils.c
 
+#	Utilities
+WHT = \033[0m
+GRN = \033[32m
+RED = \033[31m
+WHT1 = \033[0;1m
+GRN1 = \033[32;1m
+RED1 = \033[31;1m
+DRK = \033[2m
+MADE_MSG = \r   $(WHT1)Created $(GRN1)
+DEL_MSG = \r   $(WHT1)Removed $(DRK)$(RED1)
+ERROR_MSG = "\n   $(WHT1)$(DRK)Nothing to $@$(WHT)\n"
 
-#+----------------------------------------------------------------------------------------------------------------------+#
-#|    Utilities                                                                                                         |#
-#+----------------------------------------------------------------------------------------------------------------------+#
-
-WHT = \033[0m#																#
-GRN = \033[32m#																#
-RED = \033[31m#																#
-WHT1 = \033[0;1m#															#
-GRN1 = \033[32;1m#															#
-RED1 = \033[31;1m#															#
-DRK = \033[2m#																#
-MADE_MSG = \r   $(WHT1)Created $(GRN1)#										#
-DEL_MSG = \n   $(WHT1)Removed $(DRK)$(RED1)#								#
-ERROR_MSG = "\n   $(WHT1)$(DRK)Nothing to $@\n"#							#
-
-#+----------------------------------------------------------------------------------------------------------------------+#
-#|    Good stuff                                                                                                        |#
-#+----------------------------------------------------------------------------------------------------------------------+#
-
+#	Variables
 NAME = minishell
+
+#	Dirs
 BIN = ./obj
 S_DIR = ./src
-S_FILES = $(addprefix $(S_DIR)/, $(SRCS))
+I_DIR = ./include
 
-HEAD = $(NAME:a=h)
+#	Files
+S_FILES = $(addprefix $(S_DIR)/, $(SRCS))
 OBJ = $(SRCS:c=o)
 BOBJ = $(B_FILES:c=o)
+
 CC = gcc
 CF = -Wall -Wextra -Werror
 .PHONY: all libft bonus clean fclean re
 
-#+----------------------------------------------------------------------------------------------------------------------+#
-#|    Conditionals                                                                                                      |#
-#+----------------------------------------------------------------------------------------------------------------------+#
-
-#$(VERBOSE).SILENT:
-#.ONESHELL:
+#	Conditionals
 ifdef WITH_BONUS
 OBJ_FILES = $(addprefix $(BIN)/, $(OBJ)) $(addprefix $(BIN)/, $(BSRCS:c=o))
-vpath %.c ./src
 else
 OBJ_FILES = $(addprefix $(BIN)/, $(OBJ))
-vpath %.c ./src
 endif
 
-#+----------------------------------------------------------------------------------------------------------------------+#
-#|    Rules                                                                                                             |#
-#+----------------------------------------------------------------------------------------------------------------------+#
-
+#	Rules
 all: $(NAME)
 
 bonus:
 	@$(MAKE) 'WITH_BONUS = true' all
 
 $(NAME): $(S_FILES) | libft
-	@gcc $^ ./libft/libft.a -I ./include -o $(NAME)
+	@gcc $^ ./libft/libft.a -I $(I_DIR) -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
 	@./$(NAME)
 ifeq ($(WITH_BONUS),true)
@@ -80,26 +64,18 @@ ifeq ($(WITH_BONUS),true)
 endif
 
 libft:
-	@$(MAKE) -C libft bonus
+	@$(MAKE) -C libft
 
-#+----------------------------------------------------------------------------------------------------------------------+#
-#|    Trash removal rules                                                                                               |#
-#+----------------------------------------------------------------------------------------------------------------------+#
-
+#	Trash removal rules
 clean:
 	@$(MAKE) -C libft clean
-	@if test -f $(NAME); \
-	then rm -rf $(NAME); \
-	echo "$(DEL_MSG)$(NAME)$(WHT)\n"; \
-	else echo $(ERROR_MSG); \
-	fi
 
 fclean: clean
 	@$(MAKE) -C libft fclean
 	@if test -f $(NAME); \
-	then rm -rfv ./$(NAME) $(REPLACE); \
+	then rm -rf $(NAME); \
 	rm -rf a.out; \
-	echo "$(DEL_MSG) lib$(WHT)\n"; \
+	echo "$(DEL_MSG)$(NAME)$(WHT)\n"; \
 	else echo $(ERROR_MSG); \
 	fi
 
