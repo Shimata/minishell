@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 22:28:33 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/18 01:43:24 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	env(t_shell *shell)
 		ft_printf("%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
+	ft_putendl_fd(shell->cmd, 1);
 	return (0);
 }
 
@@ -99,7 +100,9 @@ void	search(t_shell *shell)
 	DIR			*dirp;
 	t_dirent	*entry;
 	int			pid;
+	int			i = -1;
 
+	//shell->cmd = ft_del(shell->cmd);
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
@@ -111,13 +114,13 @@ void	search(t_shell *shell)
 				dirp = opendir(*shell->path);
 				while ((entry = readdir(dirp)))
 					if (!ft_strcmp(entry->d_name, shell->split[0]))
-						if (!(shell->cmd = ft_strjoin_dlm(*shell->path, "/" ,shell->split[0])))
+						if (!(shell->cmd = ft_strjoin_dlm(*shell->path, "/", shell->split[0])))
 							return ;
 				shell->path++;
 				closedir(dirp);
 			}
 		}
-		if (!ft_strncmp("./", shell->split[0], 2) || shell->split[0][0] == '/')
+		else if (!ft_strncmp("./", shell->split[0], 2))
 		{
 			dirp = opendir(shell->cwd);
 			while ((entry = readdir(dirp)))
@@ -125,12 +128,11 @@ void	search(t_shell *shell)
 					shell->cmd = ft_strjoin(shell->cwd, &shell->split[0][1]);
 			closedir(dirp);
 		}
-		execve(shell->cmd, &shell->split[0], shell->environ);
+		else
+			shell->cmd = ft_strdup(shell->split[0]);
+		execve(shell->cmd, shell->split, shell->environ);
 		perror(shell->split[0]);
-		if (shell->cmd)
-			free (shell->cmd);
-		shell->cmd = NULL;
-		ft_printf("b42h: %s: command not found\n", shell->split[0]);
+		//ft_printf("b42h: %s: command not found\n", shell->split[0]);
 		exit(1);
 	}
 }
@@ -148,7 +150,7 @@ void	parse_args(char **tab, char *str, t_shell *shell)
 	i = -1;
 	while (ar[++i])
 	{
-		if (!ft_strncmp(ar[i], tab[0], 5))
+		if (!ft_strncmp(ar[i], tab[0], sizeof(ar[i])))
 		{
 			funcs[i](shell);
 			return ;

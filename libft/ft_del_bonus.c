@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 05:32:02 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/05/12 07:02:52 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/18 01:21:23 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	*ft_del(void *content)
 {
-	free(content);
+	content ? free(content) : 0;
 	return (NULL);
 }
