@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 03:44:20 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/18 23:42:23 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,6 @@ int	pwd(t_shell *shell)
 	return (0);
 }
 
-int	export(void)
-{
-	return (write(1, "ecport\n", 7));
-}
-
-int	unset(void)
-{
-	return (write(1, "unset\n", 6));
-}
-
 int	env(t_shell *shell)
 {
 	t_env *env;
@@ -85,6 +75,56 @@ int	env(t_shell *shell)
 		env = env->next;
 	}
 	ft_putendl_fd(shell->cmd, 1);
+	return (0);
+}
+
+int	export(t_shell *shell)
+{
+	char	*tmp;
+	t_env	*elem;
+
+	if (!(tmp = shell->split[1]))
+		return (env(shell));
+	if (!ft_strchr(tmp, '='))
+		return (1);
+	if ((elem = ft_find_env(shell->envir, shell->split[1])))
+	{
+		free(elem->value);
+		return ((elem->value = ft_strdup(ft_strchr(tmp, '=') + 1)) == 0);
+	}
+	while (*tmp != '=')
+	{
+	if (!ft_isalpha(*tmp) && (*tmp != '_'))
+			return (ft_fput("export: not an identifier: %s\n", shell->split[1], 0, 1));
+		tmp++;
+	}
+	if (!(shell->last = ft_env_push_back(&shell->envir, ft_envnew(shell->split[1]))))
+		write(2, "Failed to export due to malloc error", 37);
+	return (0);
+}
+
+int	unset(t_shell *shell)
+{
+	char	*tmp;
+	char	**tab;
+	t_env	*elem;
+
+	if (!(shell->split[1]))
+		return (write(2, "unset: not enough arguments\n", 28));
+	tab = shell->split + 1;
+	while (*tab)
+	{
+		tmp = *tab;
+		while (*tmp)
+		{
+			if (!ft_isalnum(*tmp) && *tmp != '_')
+				return(ft_fput("unset: %s: invalid parameter name\n", *tab, 0, 2));
+			tmp++;
+		}
+		elem = ft_find_env(shell->envir, *tab);
+		ft_envdelone(elem);
+		tab++;
+	}
 	return (0);
 }
 
@@ -194,7 +234,7 @@ int		main(int ac, char **av, char **environ)
 	{
 		if (!ft_strncmp("PATH=", *environ, 5))
 			shell.path = ft_split(*environ + 5, ':');
-		ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
+		shell.last = ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
 	}
 	shell.cwd = getcwd(NULL, 42);
 	minishell(&shell);

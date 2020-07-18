@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/18 03:57:37 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/19 00:29:02 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ OBJ = $(SRCS:c=o)
 BOBJ = $(B_FILES:c=o)
 
 CC = gcc
-CF = -Wall -Wextra -Werror
+CF = -Wall -Wextra -Werror -g
 .PHONY: all libft bonus clean fclean re
 
 #	Conditionals

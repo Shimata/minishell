@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fput.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 01:47:17 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 03:27:09 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/18 19:54:35 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void ft_specs(char c, void *s, int fd)
 **		ft_putull_base(*(unsigned int*)s, 2);
 */
 
-void 	    ft_fput(const char *str, void *s1, void *s2, int fd)
+int 	    ft_fput(const char *str, void *s1, void *s2, int fd)
 {
     char	*end;
 	int		count;
@@ -46,4 +46,5 @@ void 	    ft_fput(const char *str, void *s1, void *s2, int fd)
 		else
 			str += write(fd, str, ft_strlen(str));
     }
+	return (0);
 }

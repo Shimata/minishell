@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 21:05:26 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 03:30:30 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/18 19:54:14 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ size_t					ft_sqrt(size_t n);
 int						ft_max(int a, int b);
 int						ft_isspace(int c);
 void					*ft_del(void *content);
-void 				    ft_fput(const char *str, void *s1, void *s2, int fd);
+int 				    ft_fput(const char *str, void *s1, void *s2, int fd);
 
 /*
 **		char ** manipulation

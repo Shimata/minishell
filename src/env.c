@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/17 22:45:59 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/19 00:09:04 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_env		*ft_envdelone(t_env *env)
 		env->name ? free(env->name) : 0;
 		env->value ? free(env->value) : 0;
 		free(env);
-		ft_bzero(env, sizeof(env));
+		env = NULL;
 	}
 	return (NULL);
 }
@@ -80,8 +80,9 @@ t_env		*ft_envnew(char *content)
 
 	if (!(new_env = (t_env *)malloc(sizeof(t_env))))
 		return (NULL);
-	delim = ft_strchr(content, '=');
-	new_env->name = ft_substr(content, 0, (delim -  content));
+	if(!(delim = ft_strchr(content, '=')))
+		return (ft_envdelone(new_env));
+	new_env->name = ft_substr(content, 0, (delim - content));
 	new_env->value = ft_strdup(delim + 1);
 	if (!new_env->name || !new_env->value)
 		return (ft_envdelone(new_env));
@@ -97,18 +98,22 @@ t_env		*ft_envnew(char *content)
 
 t_env		*ft_find_env(t_env *env, char* key)
 {
-	t_env *tmp;
+	char	*tmp;
 
-	tmp = env;
-	while (tmp->prev)
-		tmp = tmp->prev;
-	while (tmp->next)
+	if ((tmp = ft_strchr(key, '=')))
+		tmp = ft_substr(key, 0, tmp - key);
+	else
+		tmp = ft_strdup(key);
+	while (env->prev)
+		env = env->prev;
+	while (env)
 	{
-		if (!ft_strcmp(tmp->name, key))
-			return (tmp);
-		tmp = tmp->next;
+		if (tmp && !ft_strcmp(env->name, tmp))
+			return (env);
+		env = env->next;
 	}
-	return(tmp);
+	ft_del(tmp);
+	return(NULL);
 }
 
 /*
