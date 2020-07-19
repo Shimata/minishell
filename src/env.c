@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/19 16:41:34 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/19 18:03:55 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_envsize(t_env *lst)
 
 t_env		*ft_envdelone(t_env **env)
 {
-	if (env)
+	if (*env)
 	{
 		if ((*env)->next)
 			(*env)->next->prev = (*env)->prev;
@@ -63,7 +63,6 @@ char		**ft_env_to_tab(t_env *env)
 		if (!(res[i] = ft_strjoin_dlm(env->name, "=", env->value)))
 			return (ft_tabclear(res));
 		env = env->next ? env->next : env;
-		ft_envdelone(env->prev ? &env->prev : &env);
 	}
 	res[i] = NULL;
 	return (res);
@@ -133,6 +132,7 @@ t_env		*ft_env_push_back(t_env** env, t_env *new)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+		new->prev = tmp;
 	}
 	return (tmp);
 }

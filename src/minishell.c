@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/19 17:05:18 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/19 18:04:11 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ void	search(t_shell *shell)
 		}
 		else
 			shell->cmd = ft_strdup(shell->split[0]);
+		ft_tabclear(shell->environ);
+		shell->environ = ft_env_to_tab(shell->envir);
 		execve(shell->cmd, shell->split, shell->environ);
 		perror(shell->split[0]);
 		//ft_printf("b42h: %s: command not found\n", shell->split[0]);
@@ -207,15 +209,13 @@ void	minishell(t_shell *shell)
 	char	*str;
 	t_prs	*prs;
 	int		fd[2];
-	shell->pid = -1;
-
 	int		cp_in = dup(0);
 	int		cp_out = dup(1);
 
 	while (1)
 	{
 		ft_putstr_fd(SHELL, 1);
-		!((prs = parse_start(shell->envir))) ? exit (0) : 0;
+		!((prs = parse_start(shell->envir))) ? exit(0) : 0;
 		shell->cmds = prs;
 		if (prs->command == '|')
 		{
@@ -235,7 +235,7 @@ void	minishell(t_shell *shell)
 		shell->split = prs->arg;
 		parse_args(prs->arg, NULL, shell);
 		if (!shell->pid)
-			exit (1);
+			exit(0);
 		else if (shell->pid > 0)
 		{
 			dup2(cp_in, 0);
@@ -244,7 +244,7 @@ void	minishell(t_shell *shell)
 			wait(NULL);
 			shell->pid = -1;
 		}
-		//prs = prs->next;
+		prs = prs->next;
 		prslst_free(shell->cmds);
 	}
 }
@@ -256,7 +256,8 @@ int		main(int ac, char **av, char **environ)
 
 	tmp = environ;
 	if (ac)
-		ft_fput("\n%s by wquinoa and jalvaro\n\n", ft_strrchr(av[0], '/') + 1, 0, 1);
+		ft_fput("%s by wquinoa and jalvaro", ft_strrchr(av[0], '/') + 1, 0, 1);
+	ft_putendl_fd("", 1);
 	ft_bzero(&shell, sizeof(shell));
 	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)
@@ -265,6 +266,7 @@ int		main(int ac, char **av, char **environ)
 			shell.path = ft_split(*environ + 5, ':');
 		shell.last = ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
 	}
+	shell.pid = -1;
 	shell.cwd = getcwd(NULL, 42);
 	minishell(&shell);
 }

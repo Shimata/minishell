@@ -6,7 +6,7 @@
 #    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/19 00:29:02 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/19 16:44:36 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,9 +52,6 @@ endif
 #	Rules
 all: $(NAME)
 
-bonus:
-	@$(MAKE) 'WITH_BONUS = true' all
-
 $(NAME): $(S_FILES) | libft
 	@gcc $^ ./libft/libft.a -I $(I_DIR) -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
@@ -65,6 +62,12 @@ endif
 
 libft:
 	@$(MAKE) -C libft
+
+bonus:
+	@$(MAKE) 'WITH_BONUS = true' all
+
+norme:
+	@cd src && norminette *.c
 
 #	Trash removal rules
 clean:
