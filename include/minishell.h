@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 23:40:43 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/19 16:41:47 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <unistd.h>
+#include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/errno.h>
 # include "../libft/libft.h"
@@ -56,13 +57,14 @@ typedef struct	s_shell
 	int			copy_in;
 	int			copy_out;
 	t_prs		*cmds;
+	int			pid;
 }				t_shell;
 
 t_env			*ft_envnew(char *content);
 t_env			*ft_envlast(t_env *env);
 t_env			*ft_env_push_back(t_env** env, t_env *new);
 t_env			*ft_find_env(t_env *env, char* key);
-t_env			*ft_envdelone(t_env *env);
+t_env			*ft_envdelone(t_env **env);
 
 char			*env_paste(t_env **beg, char *str);
 t_prs			*parse_start(t_env *env);

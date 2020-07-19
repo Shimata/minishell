@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/19 00:09:04 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/19 16:41:34 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ int		ft_envsize(t_env *lst)
 **	relink the list. Always returns NULL
 */
 
-t_env		*ft_envdelone(t_env *env)
+t_env		*ft_envdelone(t_env **env)
 {
 	if (env)
 	{
-		if (env->next)
-			env->next->prev = env->prev;
-		if (env->prev)
-			env->prev->next = env->next;
-		env->name ? free(env->name) : 0;
-		env->value ? free(env->value) : 0;
-		free(env);
-		env = NULL;
+		if ((*env)->next)
+			(*env)->next->prev = (*env)->prev;
+		if ((*env)->prev)
+			(*env)->prev->next = (*env)->next;
+		(*env)->name ? free((*env)->name) : 0;
+		(*env)->value ? free((*env)->value) : 0;
+		free((*env));
+		(*env) = NULL;
 	}
 	return (NULL);
 }
@@ -63,7 +63,7 @@ char		**ft_env_to_tab(t_env *env)
 		if (!(res[i] = ft_strjoin_dlm(env->name, "=", env->value)))
 			return (ft_tabclear(res));
 		env = env->next ? env->next : env;
-		ft_envdelone(env->prev ? env->prev : env);
+		ft_envdelone(env->prev ? &env->prev : &env);
 	}
 	res[i] = NULL;
 	return (res);
@@ -81,11 +81,11 @@ t_env		*ft_envnew(char *content)
 	if (!(new_env = (t_env *)malloc(sizeof(t_env))))
 		return (NULL);
 	if(!(delim = ft_strchr(content, '=')))
-		return (ft_envdelone(new_env));
+		return (ft_envdelone(&new_env));
 	new_env->name = ft_substr(content, 0, (delim - content));
 	new_env->value = ft_strdup(delim + 1);
 	if (!new_env->name || !new_env->value)
-		return (ft_envdelone(new_env));
+		return (ft_envdelone(&new_env));
 	new_env->next = NULL;
 	new_env->prev = NULL;
 	return (new_env);

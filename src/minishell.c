@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 23:42:23 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/19 17:05:18 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	echo(t_shell *shell)
 			words[i + 1] ? write(1, " ", 1) : 0;
 		}
 	}
-	return (write(1, flag ? "\n" : "", 1));
+	return (write(1, "\n", flag ? 1 : 0));
 }
 
 int	cd(t_shell *shell)
@@ -51,7 +51,7 @@ int	cd(t_shell *shell)
 		if (errno == err[i])
 			perror("cd");
 	free(shell->cwd);
-	shell->cwd = getcwd(NULL, 42);
+	shell->cwd = getcwd(NULL, 0);
 	return (0);
 }
 
@@ -59,7 +59,7 @@ int	pwd(t_shell *shell)
 {
 	if (shell->cwd)
 		free(shell->cwd);
-	shell->cwd = getcwd(NULL, 42);
+	shell->cwd = getcwd(NULL, 0);
 	ft_putendl_fd(shell->cwd, 1);
 	return (0);
 }
@@ -122,7 +122,7 @@ int	unset(t_shell *shell)
 			tmp++;
 		}
 		elem = ft_find_env(shell->envir, *tab);
-		ft_envdelone(elem);
+		ft_envdelone(&elem);
 		tab++;
 	}
 	return (0);
@@ -142,7 +142,7 @@ void	search(t_shell *shell)
 	int			pid;
 	int			i = -1;
 
-	//shell->cmd = ft_del(shell->cmd);
+	shell->cmd = 0;
 	pid = fork();
 	wait(NULL);
 	if (pid == 0)
@@ -156,6 +156,8 @@ void	search(t_shell *shell)
 					if (!ft_strcmp(entry->d_name, shell->split[0]))
 						if (!(shell->cmd = ft_strjoin_dlm(*shell->path, "/", shell->split[0])))
 							return ;
+				if (shell->cmd)
+					break ;
 				shell->path++;
 				closedir(dirp);
 			}
@@ -204,18 +206,45 @@ void	minishell(t_shell *shell)
 {
 	char	*str;
 	t_prs	*prs;
+	int		fd[2];
+	shell->pid = -1;
+
+	int		cp_in = dup(0);
+	int		cp_out = dup(1);
 
 	while (1)
 	{
 		ft_putstr_fd(SHELL, 1);
 		!((prs = parse_start(shell->envir))) ? exit (0) : 0;
 		shell->cmds = prs;
-		while (prs)
+		if (prs->command == '|')
 		{
-			shell->split = prs->arg;
-			parse_args(prs->arg, NULL, shell);
-			prs = prs->next;
+			pipe(fd);
+			if (!(shell->pid = fork()))
+			{
+				dup2(fd[0], 0);
+				close(fd[1]);
+				prs = prs->next;
+			}
+			else
+			{
+				dup2(fd[1], 1);
+				close(fd[0]);
+			}
 		}
+		shell->split = prs->arg;
+		parse_args(prs->arg, NULL, shell);
+		if (!shell->pid)
+			exit (1);
+		else if (shell->pid > 0)
+		{
+			dup2(cp_in, 0);
+			dup2(cp_out, 1);
+			close(fd[1]);
+			wait(NULL);
+			shell->pid = -1;
+		}
+		//prs = prs->next;
 		prslst_free(shell->cmds);
 	}
 }
