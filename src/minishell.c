@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 12:03:55 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/20 13:40:09 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,9 @@ void	minishell(t_shell *shell)
 {
 	char	*str;
 	t_prs	*prs;
+	char	**tmp;
+	int 	fd;
+	char	buff[1];
 
 	while (1)
 	{
@@ -270,8 +273,29 @@ void	minishell(t_shell *shell)
 					continue;
 				}
 			}
+			if (prs->command == '<')
+			{
+				tmp = prs->arg;
+				prs->arg = prs->next->arg;
+				prs->next->arg = tmp;
+				if (create_pipe(shell) == -1)
+					return ;
+				if (!shell->pid)
+				{
+					prs = prs->next;
+					continue;
+				}
+			}
 			shell->split = prs->arg;
-			parse_args(prs->arg, NULL, shell);
+			if (prs->command == '<')
+			{
+				fd = open(prs->arg[0], O_RDONLY);
+				while(read(fd, buff, 1))
+					write(shell->fd[1], buff, 1);
+				close(fd);
+			}
+			else
+				parse_args(prs->arg, NULL, shell);
 			if (close_pipe(shell) == -1)
 				return ;
 			if (shell->pid)
