@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 11:27:52 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/20 12:03:55 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,12 @@ int		close_pipe(t_shell *shell)
 	{
 		ret1 = dup2(shell->cp_in, 0);
 		ret2 = dup2(shell->cp_out, 1);
-		close(shell->fd[1]);
-		wait(NULL);
 		if (ret1 == -1 || ret2 == -1)
 			return (-1);
+		close(shell->fd[1]);
+		wait(NULL);						//вот тут какая-то проблема, нужно подобрать условие. Родитель слишком спешит.
+		if (shell->pid_prev != -1)
+			exit (0);
 		shell->pid = -1;
 	}
 	return (1);
@@ -230,6 +232,7 @@ int		create_pipe(t_shell *shell)
 {
 	if (pipe(shell->fd) == -1)
 		return (-1);
+	shell->pid_prev = shell->pid; // костыль или гениальное решение?
 	if (!(shell->pid = fork()))
 	{
 		if (dup2(shell->fd[0], 0) == -1)
@@ -255,18 +258,26 @@ void	minishell(t_shell *shell)
 		ft_putstr_fd(SHELL, 1);
 		!((prs = parse_start(shell->envir))) ? exit(0) : 0;
 		shell->cmds = prs;
-		if (prs->command == '|')
+		while (prs)
 		{
-			if (create_pipe(shell) == -1)
-				return ; //у этой функции надо изменить тип, чтобы она могла возвращать значени, либо сделать тут exit
-			if (!shell->pid)
-				prs = prs->next;
+			if (prs->command == '|')
+			{
+				if (create_pipe(shell) == -1)
+					return ; //у этой функции надо изменить тип, чтобы она могла возвращать значени, либо сделать тут exit
+				if (!shell->pid)
+				{
+					prs = prs->next;
+					continue;
+				}
+			}
+			shell->split = prs->arg;
+			parse_args(prs->arg, NULL, shell);
+			if (close_pipe(shell) == -1)
+				return ;
+			if (shell->pid)
+				break;
+			prs = prs->next;
 		}
-		shell->split = prs->arg;
-		parse_args(prs->arg, NULL, shell);
-		if (close_pipe(shell) == -1)
-			return ;
-		prs = prs->next;
 		prslst_free(shell->cmds);
 	}
 }
@@ -289,6 +300,7 @@ int		main(int ac, char **av, char **environ)
 		shell.last = ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
 	}
 	shell.pid = -1;
+	shell.pid_prev = 0;
 	shell.cwd = getcwd(NULL, 42);
 	shell.cp_in = dup(0);
 	shell.cp_out = dup(1);

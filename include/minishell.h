@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 11:10:28 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/20 11:59:22 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct	s_shell
 	int			copy_out;
 	t_prs		*cmds;
 	int			pid;
+	int			pid_prev;
 	int			cp_in;
 	int			cp_out;
 	int			fd[2];
