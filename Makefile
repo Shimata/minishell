@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
+#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/20 19:56:09 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/21 00:45:53 by jalvaro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,6 @@ all: $(NAME)
 $(NAME): $(S_FILES) | libft
 	@gcc $^ ./libft/libft.a -I $(I_DIR) -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
-	@./$(NAME)
 ifeq ($(WITH_BONUS),true)
 	@echo "	$(WHT1)...added $(GRN1)ft_printf$(WHT)\n"
 endif
@@ -71,6 +70,9 @@ norme:
 	@$(MAKE) -C libft norme
 	@echo "$(DRK)$(BLU1)\n\t$(NAME)$(WHT)\n"
 	@$(NORME)
+
+run: $(NAME)
+	@./$(NAME)
 
 #	Trash removal rules
 clean:

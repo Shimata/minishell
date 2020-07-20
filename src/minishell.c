@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 21:17:43 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/21 00:44:12 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,34 +113,14 @@ int	minishell(t_shell *shell)
 		shell->cmds = prs;
 		while (prs)
 		{
-			shell->split = prs->arg;
 			if (prs->command == '>')
 			{
-				pipe(shell->fd);
-				if (!(fork()))
-				{
-					fd = open(prs->next->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-					dup2(shell->fd[READ_END], STDIN);
-					close(shell->fd[WRITE_END]);
-					while (read(shell->fd[READ_END], buff, 1) > 0)
-						write(1, buff, 1);
-					write(1, "1", 1);
-					close(fd);
-					exit(0);
-				}
-				else
-				{
-					dup2(shell->fd[WRITE_END], STDOUT);
-					close(shell->fd[READ_END]);
-					exec(prs->arg, shell);
-					close(shell->fd[WRITE_END]);
-					close_pipe(shell);
-					wait(NULL);
-					dup2(shell->cp_in, STDIN);
-					dup2(shell->cp_out, STDOUT);
-					exit(0);
-				}
+				if (create_pipe(shell) == -1)
+					return ;
+				if (shell->pid)
+					prs->command = ' ';
 			}
+			shell->split = prs->arg;
 			if (prs->command == '|' || prs->command == '<')
 			{
 				if (prs->command == '<')
@@ -163,9 +143,29 @@ int	minishell(t_shell *shell)
 						write(shell->fd[1], buff, 1);
 					close(fd);
 				}
-
 			}
-			exec(prs->arg, shell);
+			if (prs->command == '<')
+			{
+				fd = open(prs->arg[0], O_RDONLY);
+				while(read(fd, buff, 1))
+					write(shell->fd[1], buff, 1);
+				close(fd);
+			}
+			else if (prs->command == '>')
+			{
+				fd = open(prs->next->arg[0], O_CREAT | O_WRONLY);
+				while(read(shell->fd[0], buff, 1))
+					write(fd, buff, 1);
+				close(fd);
+				close(shell->fd[0]);
+				close(shell->fd[1]);
+				dup2(shell->cp_in, 0);
+				dup2(shell->cp_out, 1);
+				prs = prs->next;
+				prs->command = ';';
+			}
+			else
+				exec(prs->arg, shell);
 			if (prs->command == ';')
 			{
 				prs = prs->next;
@@ -183,12 +183,19 @@ int	minishell(t_shell *shell)
 	return (ft_exit());
 }
 
+void	quit(int l)
+{
+	(void)l;
+	exit(0);
+}
+
 int		main(int ac, char **av, char **environ)
 {
 	t_shell	shell;
 	char	**tmp;
 
 	tmp = environ;
+	signal(SIGINT, quit);
 	if (ac)
 		ft_fput("%s by wquinoa and jalvaro\n%s",
 		ft_strrchr(av[0], '/') + 1, SHELL, 1);
