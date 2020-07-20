@@ -6,7 +6,7 @@
 #    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/19 00:29:13 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/20 17:11:32 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ MADE_MSG = \n   $(WHT1)Created $(GRN1)#										#
 DEL_MSG = \r   $(WHT1)Removed $(DRK)$(RED1)#								#
 ERROR_MSG = "\n   $(WHT1)$(DRK)Nothing to $@$(WHT)\n"#						#
 REPLACE =  2>&1| awk '{sub(/.\//,"  $(WHT) $(DRK)removed $(RED)")}1'
+NORME = norminette *.c *.h | awk '{sub(/Norme/,"$(GRN)Norme$(WHT)")}1' | awk '{sub(/Error/,"$(RED)Error$(WHT)")}1'
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Good stuff                                                                                                        |#
@@ -88,6 +89,10 @@ $(NAME): $(OBJ_FILES)
 ifeq ($(WITH_BONUS),true)
 	@echo "$(WHT1)   added   $(GRN1)ft_printf$(WHT)"
 endif
+
+norme:
+	@echo "$(DRK)$(BLU1)\n\t$(NAME)$(WHT)\n"
+	@$(NORME)
 
 #+----------------------------------------------------------------------------------------------------------------------+#
 #|    Creating bindir and objects                                                                                       |#

@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabmap_bonus.c                                  :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/07 08:25:33 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 17:16:30 by wquinoa          ###   ########.fr       */
+/*   Created: 2020/07/20 16:16:50 by wquinoa           #+#    #+#             */
+/*   Updated: 2020/07/20 16:17:17 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char		**ft_tabmap(char **tab, char *(*f)(const char *))
+int	echo(t_shell *shell)
 {
-	char	**res;
-	int		len;
+	char	**words;
 	int		i;
+	int		flag;
 
-	if (!tab || !f)
-		return (NULL);
-	len = ft_tablen(tab);
-	if (!(res = (char **)malloc((sizeof(char *) * (len + 1)))))
-		return (NULL);
-	i = -1;
-	while (++i < len)
+	words = shell->split;
+	flag = 0;
+	if (words[1])
 	{
-		res[i] = f(tab[i]);
-		if (!(res[i]))
-			return (ft_tabclear(res));
+		flag = ft_strncmp(words[1], "-n", 3);
+		i = (flag == 0);
+		while (words[++i])
+		{
+			ft_putstr_fd(words[i], 1);
+			words[i + 1] ? write(1, " ", 1) : 0;
+		}
 	}
-	res[i] = NULL;
-	return (res);
+	return (write(1, "\n", flag ? 1 : 0));
 }

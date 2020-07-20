@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_join_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/07 20:11:16 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/05/16 06:25:48 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 17:23:28 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char		*ft_join(char **tab, char *dlm)
 			return (ft_del(res));
 		if (!(res = ft_strdup(tmp)))
 			return (ft_del(tmp));
-		free (tmp);
+		free(tmp);
 	}
 	return (res);
 }

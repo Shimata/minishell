@@ -6,13 +6,13 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 01:47:17 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 19:54:35 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 16:13:10 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "libft.h"
 
-static void ft_specs(char c, void *s, int fd)
+static void	ft_specs(char c, void *s, int fd)
 {
 	if (s && c == 's')
 		write(fd, (char *)s, ft_strlen((char *)s));
@@ -29,15 +29,15 @@ static void ft_specs(char c, void *s, int fd)
 **		ft_putull_base(*(unsigned int*)s, 2);
 */
 
-int 	    ft_fput(const char *str, void *s1, void *s2, int fd)
+int			ft_fput(const char *str, void *s1, void *s2, int fd)
 {
-    char	*end;
+	char	*end;
 	int		count;
 
 	count = 0;
-    while (*str)
-    {
-        if ((end = ft_strchr(str, '%')))
+	while (*str)
+	{
+		if ((end = ft_strchr(str, '%')))
 		{
 			str += write(fd, str, end - str) + 2;
 			ft_specs(str[-1], count ? s2 : s1, fd);
@@ -45,6 +45,6 @@ int 	    ft_fput(const char *str, void *s1, void *s2, int fd)
 		}
 		else
 			str += write(fd, str, ft_strlen(str));
-    }
-	return (0);
+	}
+	return (fd == 2 ? -1 : 1);
 }

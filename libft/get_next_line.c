@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 05:54:10 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/13 14:29:35 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 17:16:53 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int		get_next_line(int fd, char **line)
 			free(buf);
 			return (-1);
 		}
-		if (fd_tab[fd])
-			free(fd_tab[fd]);
+		(fd_tab[fd]) ? free(fd_tab[fd]) : 0;
 		fd_tab[fd] = tmp;
 		if (ft_strchr(fd_tab[fd], '\n') || !flag)
 		{

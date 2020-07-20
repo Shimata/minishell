@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 14:18:05 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/19 14:51:22 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/20 15:14:47 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		main(int ac, char **av, char **env)
 	char *buff2[2] = {"", 0};
 	pipe(fd);
 	test(env, buff2, buff, fd);
+	
 	/*if (fork())
 	{
 		dup2(fd[1], 1);
@@ -56,5 +57,6 @@ int		main(int ac, char **av, char **env)
 		dup2(fd[0], 0);
 		execve("/bin/cat", buff, env);
 	}*/
+
 	return(0);
 }

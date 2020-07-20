@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 20:18:08 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/18 03:38:56 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 17:47:01 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	Reworked memcpy to copy in blocks of up to a long per cycle
 **	The memory has to be aligned into a suitable block
-**	byte by byte first. 
+**	byte by byte first.
 */
 
 void	*ft_memcpy(void *dst, void const *src, size_t n)

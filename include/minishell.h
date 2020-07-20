@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 11:59:22 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/20 16:37:28 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/stat.h>
 # include <sys/errno.h>
 # include "../libft/libft.h"
-# define SHELL "\033[32m➜  \033[34;1mb42h-0.1\033[0m$ "
+# include "defines.h"
 
 typedef struct dirent t_dirent;
 
@@ -71,6 +71,19 @@ t_env			*ft_find_env(t_env *env, char* key);
 t_env			*ft_find_del(t_env **head, char* key);
 t_env			*ft_envdelone(t_env **env);
 char			**ft_env_to_tab(t_env *env);
+
+/*
+** Built-ins
+*/
+
+int				echo(t_shell *shell);
+int				cd(t_shell *shell);
+int				pwd(t_shell *shell);
+int				env(t_shell *shell);
+int				export(t_shell *shell);
+int				unset(t_shell *shell);
+int				ft_exit(void);
+void			search(t_shell *shell);
 
 char			*env_paste(t_env **beg, char *str);
 t_prs			*parse_start(t_env *env);

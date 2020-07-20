@@ -6,13 +6,13 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/19 18:03:55 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 17:38:24 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_envsize(t_env *lst)
+int			ft_envsize(t_env *lst)
 {
 	t_env	*tmp;
 	int		i;
@@ -56,7 +56,7 @@ char		**ft_env_to_tab(t_env *env)
 			env = env->prev;
 	size = ft_envsize(env);
 	if (!(res = (char **)malloc(sizeof(char *) * (size + 1))))
-		return(NULL);
+		return (NULL);
 	i = -1;
 	while (++i < size)
 	{
@@ -77,9 +77,9 @@ t_env		*ft_envnew(char *content)
 	t_env	*new_env;
 	char	*delim;
 
-	if (!(new_env = (t_env *)malloc(sizeof(t_env))))
+	if (!(new_env = (t_env*)malloc(sizeof(t_env))))
 		return (NULL);
-	if(!(delim = ft_strchr(content, '=')))
+	if (!(delim = ft_strchr(content, '=')))
 		return (ft_envdelone(&new_env));
 	new_env->name = ft_substr(content, 0, (delim - content));
 	new_env->value = ft_strdup(delim + 1);
@@ -95,7 +95,7 @@ t_env		*ft_envnew(char *content)
 **	returns a pointer to the last list element.
 */
 
-t_env		*ft_find_env(t_env *env, char* key)
+t_env		*ft_find_env(t_env *env, char *key)
 {
 	char	*tmp;
 
@@ -112,7 +112,7 @@ t_env		*ft_find_env(t_env *env, char* key)
 		env = env->next;
 	}
 	ft_del(tmp);
-	return(NULL);
+	return (NULL);
 }
 
 /*
@@ -120,7 +120,7 @@ t_env		*ft_find_env(t_env *env, char* key)
 **	returns a pointer to the (new) last element.
 */
 
-t_env		*ft_env_push_back(t_env** env, t_env *new)
+t_env		*ft_env_push_back(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
