@@ -1,0 +1,9 @@
+Makefile
+include
+libft
+main.c
+minishell
+src
+test.c
+tredf
+trexd

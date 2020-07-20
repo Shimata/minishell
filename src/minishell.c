@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 13:40:09 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/20 15:03:21 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,11 @@ void	minishell(t_shell *shell)
 			}
 			else
 				parse_args(prs->arg, NULL, shell);
+			if (prs->command == ';')
+			{
+				prs = prs->next;
+				continue;
+			}
 			if (close_pipe(shell) == -1)
 				return ;
 			if (shell->pid)
