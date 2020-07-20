@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/19 18:04:11 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 11:27:52 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,13 +204,51 @@ void	parse_args(char **tab, char *str, t_shell *shell)
 	i = -1;
 }
 
+int		close_pipe(t_shell *shell)
+{
+	int ret1;
+	int ret2;
+	
+	ret1 = 0;
+	ret2 = 0;
+	if (!shell->pid)
+		exit(0);
+	else if (shell->pid > 0)
+	{
+		ret1 = dup2(shell->cp_in, 0);
+		ret2 = dup2(shell->cp_out, 1);
+		close(shell->fd[1]);
+		wait(NULL);
+		if (ret1 == -1 || ret2 == -1)
+			return (-1);
+		shell->pid = -1;
+	}
+	return (1);
+}
+
+int		create_pipe(t_shell *shell)
+{
+	if (pipe(shell->fd) == -1)
+		return (-1);
+	if (!(shell->pid = fork()))
+	{
+		if (dup2(shell->fd[0], 0) == -1)
+			return (-1);
+		close(shell->fd[1]);
+	}
+	else
+	{
+		if (dup2(shell->fd[1], 1) == -1)
+			return (-1);
+		close(shell->fd[0]);
+	}
+	return (1);
+}
+
 void	minishell(t_shell *shell)
 {
 	char	*str;
 	t_prs	*prs;
-	int		fd[2];
-	int		cp_in = dup(0);
-	int		cp_out = dup(1);
 
 	while (1)
 	{
@@ -219,31 +257,15 @@ void	minishell(t_shell *shell)
 		shell->cmds = prs;
 		if (prs->command == '|')
 		{
-			pipe(fd);
-			if (!(shell->pid = fork()))
-			{
-				dup2(fd[0], 0);
-				close(fd[1]);
+			if (create_pipe(shell) == -1)
+				return ; //у этой функции надо изменить тип, чтобы она могла возвращать значени, либо сделать тут exit
+			if (!shell->pid)
 				prs = prs->next;
-			}
-			else
-			{
-				dup2(fd[1], 1);
-				close(fd[0]);
-			}
 		}
 		shell->split = prs->arg;
 		parse_args(prs->arg, NULL, shell);
-		if (!shell->pid)
-			exit(0);
-		else if (shell->pid > 0)
-		{
-			dup2(cp_in, 0);
-			dup2(cp_out, 1);
-			close(fd[1]);
-			wait(NULL);
-			shell->pid = -1;
-		}
+		if (close_pipe(shell) == -1)
+			return ;
 		prs = prs->next;
 		prslst_free(shell->cmds);
 	}
@@ -268,5 +290,7 @@ int		main(int ac, char **av, char **environ)
 	}
 	shell.pid = -1;
 	shell.cwd = getcwd(NULL, 42);
+	shell.cp_in = dup(0);
+	shell.cp_out = dup(1);
 	minishell(&shell);
 }
