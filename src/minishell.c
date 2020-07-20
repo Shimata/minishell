@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 20:14:45 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/20 21:17:43 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,22 +116,30 @@ int	minishell(t_shell *shell)
 			shell->split = prs->arg;
 			if (prs->command == '>')
 			{
-				fd = open(prs->next->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+				pipe(shell->fd);
 				if (!(fork()))
 				{
-					close(1);
-					dup(fd);
-					while (read(1, buff, 1))
-						write(fd, buff, 1);
+					fd = open(prs->next->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+					dup2(shell->fd[READ_END], STDIN);
+					close(shell->fd[WRITE_END]);
+					while (read(shell->fd[READ_END], buff, 1) > 0)
+						write(1, buff, 1);
+					write(1, "1", 1);
+					close(fd);
+					exit(0);
 				}
 				else
 				{
-					close(fd);
+					dup2(shell->fd[WRITE_END], STDOUT);
+					close(shell->fd[READ_END]);
 					exec(prs->arg, shell);
+					close(shell->fd[WRITE_END]);
+					close_pipe(shell);
 					wait(NULL);
-					prs = prs->next;
+					dup2(shell->cp_in, STDIN);
+					dup2(shell->cp_out, STDOUT);
+					exit(0);
 				}
-				exit (0);
 			}
 			if (prs->command == '|' || prs->command == '<')
 			{
