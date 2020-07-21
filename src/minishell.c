@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/21 11:35:47 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/21 20:05:40 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int		redirect_to_rigth(t_shell *shell, char *filename)
 	char	buff[1];
 	
 	fd = open(filename, O_CREAT | O_WRONLY);
-	printf("%d\n", fd);
 	if (fd > 0)
 	{
 		while(read(shell->fd[0], buff, 1))
@@ -157,52 +156,48 @@ int		command_check_n_run(t_shell *shell, t_prs *prs)
 	return (1);
 }
 
+int		command_chek_and_prepare(t_shell *shell, t_prs **prs)
+{
+	if ((*prs)->command == '>')
+	{
+		if (create_pipe(shell) == -1)
+			return ;
+		if (shell->pid)
+			(*prs)->command = ' ';
+	}
+	if ((*prs)->command == '|' || (*prs)->command == '<')
+	{
+		if ((*prs)->command == '<')
+			ft_swap((void *)&(*prs)->next->arg, (void *)&(*prs)->arg);
+		if (create_pipe(shell) == -1)
+			return (-1); //у этой функции надо изменить тип, чтобы она могла возвращать значени, либо сделать тут exit
+		if (!shell->pid)
+		{
+			(*prs) = (*prs)->next;
+			return(0);
+		}
+		if ((*prs)->command == '<')
+			redirect_to_left(shell, (*prs)->arg[0]);
+	}
+	return (1);
+}
+
 int		minishell(t_shell *shell)
 {
 	char	*str;
 	t_prs	*prs;
-	char	**tmp;
-	int 	fd;
-	char	buff[1];
 
 	while ((prs = parse_start(shell->envir)))
 	{
 		shell->cmds = prs;
 		while (prs)
 		{
-			if (prs->command == '>')
-			{
-				if (create_pipe(shell) == -1)
-					return ;
-				if (shell->pid)
-					prs->command = ' ';
-			}
 			shell->split = prs->arg;
-			if (prs->command == '|' || prs->command == '<')
-			{
-				if (prs->command == '<')
-					ft_swap((void *)&prs->next->arg, (void *)&prs->arg);
-				if (create_pipe(shell) == -1)
-					return (-1); //у этой функции надо изменить тип, чтобы она могла возвращать значени, либо сделать тут exit
-				if (!shell->pid)
-				{
-					prs = prs->next;
-					continue ;
-				}
-				if (prs->command == '<')
-				{
-					fd = open(prs->arg[0], O_RDONLY);
-					while (read(fd, buff, 1))
-						write(shell->fd[1], buff, 1);
-					close(fd);
-				}
-			}
+			if(!command_chek_and_prepare(shell, &prs))
+				continue;
 			command_check_n_run(shell, prs);
-			if (prs->command == ';')
-			{
-				prs = prs->next;
+			if (prs->command == ';' && (prs = prs->next))
 				continue ;
-			}
 			if (close_pipe(shell) == -1)
 				return (-1);
 			if (shell->pid)
