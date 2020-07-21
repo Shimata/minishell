@@ -1,0 +1,8 @@
+Makefile
+include
+kkiik
+libft
+main.c
+minishell
+src
+test.c

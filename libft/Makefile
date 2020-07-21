@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
+#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/20 17:11:32 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/21 10:59:01 by jalvaro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS :=			ft_atoi.c			ft_bzero.c			ft_calloc.c			ft_isalnum.c		ft_isalpha.c			\
 				ft_putchar_fd.c		ft_putendl_fd.c		ft_putnbr_fd.c		ft_putstr_fd.c		ft_strcmp.c				\
 				ft_lstadd_back.c	ft_lstadd_front.c	ft_lstclear.c		ft_lstdelone.c		ft_lstiter.c			\
 				ft_lstlast.c		ft_lstmap.c			ft_lstnew.c			ft_lstsize.c		ft_fput.c				\
-				ft_del_bonus.c		ft_isspace_bonus.c	ft_join_bonus.c		ft_strjoin_dlm.c							\
+				ft_del_bonus.c		ft_isspace_bonus.c	ft_join_bonus.c		ft_strjoin_dlm.c	ft_swap.c				\
 				ft_tabclear_bonus.c	ft_tablen_bonus.c	ft_tabmap_bonus.c	get_next_line.c
 
 BSRCS :=		ft_math.c			ft_print.c			ft_printf.c			ft_putnbr_basep.c		\
