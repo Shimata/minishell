@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/21 20:05:40 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/22 05:55:16 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,123 +32,14 @@ void	exec(char **tab, t_shell *shell)
 	search(shell);
 }
 
-int		close_pipe(t_shell *shell)
-{
-	int ret1;
-	int ret2;
-	
-	ret1 = 0;
-	ret2 = 0;
-	if (!shell->pid)
-		exit(0);
-	else if (shell->pid > 0)
-	{
-		ret1 = dup2(shell->cp_in, STDIN);
-		ret2 = dup2(shell->cp_out, STDOUT);
-		if (ret1 == -1 || ret2 == -1)
-			return (ft_fput("%s: %s\n", shell->split[0], strerror(errno), 2));
-		close(shell->fd[WRITE_END]);
-		wait(NULL);						//вот тут какая-то проблема, нужно подобрать условие. Родитель слишком спешит.
-		if (shell->pid_prev != -1)
-			exit (0);
-		shell->pid = -1;
-	}
-	return (1);
-}
-
-int		create_pipe(t_shell *shell)
-{
-	if (pipe(shell->fd) == -1)
-		return (ft_fput("%s: %s\n", shell->split[0], strerror(errno), 2));
-	shell->pid_prev = shell->pid; // костыль или гениальное решение?
-	if (!(shell->pid = fork())) // гениальный костыль)
-	{
-		if (dup2(shell->fd[READ_END], STDIN) == -1)
-			return (ft_fput("%s: %s\n", shell->split[0], strerror(errno), 2));
-		close(shell->fd[WRITE_END]);
-	}
-	else if (shell->pid == -1)
-		return (ft_fput("%s: %s\n", shell->split[0], strerror(errno), 2));
-	else
-	{
-		if (dup2(shell->fd[WRITE_END], STDOUT) == -1)
-			return (ft_fput("%s: %s\n", shell->split[0], strerror(errno), 2));
-		close(shell->fd[READ_END]);
-	}
-	return (1);
-}
-
-int		create_file_pipe(t_shell *shell, int fdread, int fdwrite)
-{
-	if (pipe(shell->fd) == -1)
-		return (-1);
-	shell->pid_prev = shell->pid;
-	if (!(shell->pid = fork()))
-	{
-		if (dup2(shell->fd[READ_END], fdread) == -1)
-			return (-1);
-		close(shell->fd[WRITE_END]);
-	}
-	else if (shell->pid == -1)
-		return (-1);
-	else
-	{
-		if (dup2(shell->fd[WRITE_END], fdwrite) == -1)
-			return (-1);
-		close(shell->fd[READ_END]);
-	}
-	return (1);
-}
-
-int		redirect_to_rigth(t_shell *shell, char *filename)
-{
-	int fd;
-	char	buff[1];
-	
-	fd = open(filename, O_CREAT | O_WRONLY);
-	if (fd > 0)
-	{
-		while(read(shell->fd[0], buff, 1))
-			write(fd, buff, 1);
-		close(fd);
-	}
-	close(shell->fd[0]);
-	close(shell->fd[1]);
-	dup2(shell->cp_in, 0);
-	dup2(shell->cp_out, 1);
-	if (fd == -1)
-	{
-		perror(filename);
-		errno = 0;
-	}
-}
-
-int		redirect_to_left(t_shell *shell, char *filename)
-{
-	int 	fd;
-	char	buff[1];
-	fd = open(filename, O_RDONLY);
-	if (fd > 0)
-	{
-		while(read(fd, buff, 1))
-			write(shell->fd[1], buff, 1);
-		close(fd);
-	}
-	if (fd == -1)
-	{
-		perror(filename);
-		errno = 0;
-	}
-}
-
 int		command_check_n_run(t_shell *shell, t_prs *prs)
 {
 	if (prs->command == '<')
-		redirect_to_left(shell, prs->arg[0]);
+		redirect_left(shell, prs->arg[0]);
 	else if (prs->command == '>')
 	{
 		prs = prs->next;
-		redirect_to_rigth(shell, prs->arg[0]);
+		redirect_right(shell, prs->arg[0], prs->prev->dbl);
 		prs->command = ';';
 	}
 	else
@@ -161,7 +52,7 @@ int		command_chek_and_prepare(t_shell *shell, t_prs **prs)
 	if ((*prs)->command == '>')
 	{
 		if (create_pipe(shell) == -1)
-			return ;
+			return (ft_perror(((*prs)->next->arg[0])));
 		if (shell->pid)
 			(*prs)->command = ' ';
 	}
@@ -170,14 +61,14 @@ int		command_chek_and_prepare(t_shell *shell, t_prs **prs)
 		if ((*prs)->command == '<')
 			ft_swap((void *)&(*prs)->next->arg, (void *)&(*prs)->arg);
 		if (create_pipe(shell) == -1)
-			return (-1); //у этой функции надо изменить тип, чтобы она могла возвращать значени, либо сделать тут exit
+			return (-1);
 		if (!shell->pid)
 		{
 			(*prs) = (*prs)->next;
 			return(0);
 		}
 		if ((*prs)->command == '<')
-			redirect_to_left(shell, (*prs)->arg[0]);
+			redirect_left(shell, (*prs)->arg[0]);
 	}
 	return (1);
 }
@@ -194,7 +85,7 @@ int		minishell(t_shell *shell)
 		{
 			shell->split = prs->arg;
 			if(!command_chek_and_prepare(shell, &prs))
-				continue;
+				continue ;
 			command_check_n_run(shell, prs);
 			if (prs->command == ';' && (prs = prs->next))
 				continue ;
@@ -205,15 +96,9 @@ int		minishell(t_shell *shell)
 			prs = prs->next;
 		}
 		prslst_free(shell->cmds);
-		ft_putstr_fd(SHELL, 1);
+		ft_fput(PROMPT, SHELL, ft_strrchr(shell->cwd, '/') + 1, 1);
 	}
-	return (ft_exit());
-}
-
-void	quit(int l)
-{
-	(void)l;
-	exit(0);
+	return (-1);
 }
 
 int		main(int ac, char **av, char **environ)
@@ -222,23 +107,23 @@ int		main(int ac, char **av, char **environ)
 	char	**tmp;
 
 	tmp = environ;
-	signal(SIGINT, quit);
-	if (ac)
-		ft_fput("%s by wquinoa and jalvaro\n%s",
-		ft_strrchr(av[0], '/') + 1, SHELL, 1);
+	signal(SIGINT, ft_ignore);
+	signal(SIGQUIT, SIG_IGN);
 	ft_bzero(&shell, sizeof(shell));
-	shell.environ = ft_tabmap(environ, &ft_strdup);
 	while (*environ)
 	{
 		if (!ft_strncmp("PATH=", *environ, 5))
 			shell.path = ft_split(*environ + 5, ':');
-		shell.last = ft_env_push_back(&shell.envir, ft_envnew(*(environ++)));
+		shell.last = ft_env_add_back(&shell.envir, ft_envnew(*(environ++)));
 	}
+	shell.last = ft_env_add_back(&shell.envir, ft_envnew("?=0"));
 	shell.pid = -1;
 	shell.pid_prev = 0;
 	shell.cwd = getcwd(NULL, 42);
+	if (ac && av[0])
+		ft_fput(STARTUP, SHELL, ft_strrchr(shell.cwd, '/') + 1, 1);
 	shell.cp_in = dup(0);
 	shell.cp_out = dup(1);
-	minishell(&shell);
-	return (0);
+	errno ? ft_perror_exit("b42sh"): 0;
+	return (minishell(&shell));
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_paste.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 22:31:40 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/20 17:21:46 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/22 04:43:45 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*value_paste(char *str, char *tmp, int j, char *value)
+static char	*value_paste(char *str, char *tmp, int j, char *value)
 {
 	char	*head;
 	char	*tail;
@@ -38,7 +38,7 @@ char	*value_paste(char *str, char *tmp, int j, char *value)
 	return (str);
 }
 
-char	*env_paste(t_env **beg, char *str)
+char		*env_paste(t_env **beg, char *str)
 {
 	int		j;
 	char	*tmp;
@@ -46,14 +46,14 @@ char	*env_paste(t_env **beg, char *str)
 
 	while ((tmp = ft_strchr(str, '$')))
 	{
-		tmp++;
+		++tmp;
 		lst = *beg;
 		while (lst)
 		{
 			j = 0;
 			while (lst->name[j] == tmp[j] && lst->name[j] != 0)
 				j++;
-			if (lst->name[j] == 0 && !ft_isalnum(tmp[j]))
+			if (lst->name[j] == 0 && (!ft_isalnum(tmp[j])))
 				break ;
 			lst = lst->next;
 		}

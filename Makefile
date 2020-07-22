@@ -3,20 +3,26 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/21 00:45:53 by jalvaro          ###   ########.fr        #
+#    Updated: 2020/07/22 05:24:27 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #	Source files
-SRCS :=			minishell.c		envlist.c		
+SRCS :=			minishell.c						\
+				pipes.c			redirects.c
 				
-BUILT :=		echo.c			cd_pwd.c		env_export_unset.c	ft_exit.c	\
-				path_search.c
+BUILT :=		echo.c			cd_pwd.c		\
+				path_search.c	ft_exit.c		\
+				env_export_unset.c
 
-PARSE :=		env_paste.c		parse_args.c	parse_utils.c
+PARSE :=		env_paste.c		parse_args.c	\
+				parse_utils.c
+
+ENVUT :=		envlist.c		ft_env_to_tab.c	\
+				ft_errors.c
 
 #	Utilities
 WHT = \033[0m
@@ -39,12 +45,14 @@ BIN = ./obj/
 S_DIR = ./src/
 BU_DIR = builtins/
 PA_DIR = parser/
+EN_DIR = env_utils/
 I_DIR = ./include
 
 #	Files
 BU_FILES = $(addprefix $(BU_DIR), $(BUILT))
 PA_FILES = $(addprefix $(PA_DIR), $(PARSE))
-S_FILES = $(addprefix $(S_DIR), $(SRCS) $(BU_FILES) $(PA_FILES))
+EN_FILES = $(addprefix $(EN_DIR), $(ENVUT))
+S_FILES = $(addprefix $(S_DIR), $(SRCS) $(BU_FILES) $(PA_FILES) $(EN_FILES))
 
 CC = gcc
 CF = -Wall -Wextra -Werror

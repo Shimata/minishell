@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 16:37:28 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/22 05:18:08 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@
 # include "defines.h"
 
 typedef struct dirent t_dirent;
+
+typedef union	u_status
+{
+	int			digit;
+	char		*str;
+}				t_stat;
 
 typedef struct	s_en
 {
@@ -61,43 +67,64 @@ typedef struct	s_shell
 	int			pid_prev;
 	int			cp_in;
 	int			cp_out;
+	int			status;
 	int			fd[2];
 }				t_shell;
 
+/*
+** Parser 
+*/
+
+char			*env_paste(t_env **beg, char *str);
+t_prs			*parse_start(t_env *env);
+t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf);
+char			*env_paste(t_env **beg, char *str);
+t_prs			*prslstback(t_prs *prs, char command);
+t_prs			*prslst_free(t_prs *prs);
+char			**add_str_to_array(char ***arr, char **str);
+char			*add_char_to_str(char **str, char c);
+char			**free_arr(char **arr);
+
+
+/*
+** Env utils
+*/
+
 t_env			*ft_envnew(char *content);
-t_env			*ft_envlast(t_env *env);
-t_env			*ft_env_push_back(t_env** env, t_env *new);
-t_env			*ft_find_env(t_env *env, char* key);
-t_env			*ft_find_del(t_env **head, char* key);
 t_env			*ft_envdelone(t_env **env);
+t_env			*ft_find_env(t_env *env, char* key);
+t_env			*ft_switch_env(t_env *env, char *name, char *value);
+t_env			*ft_env_add_back(t_env** env, t_env *new);
 char			**ft_env_to_tab(t_env *env);
 
 /*
 ** Built-ins
 */
 
-int				echo(t_shell *shell);
 int				cd(t_shell *shell);
 int				pwd(t_shell *shell);
 int				env(t_shell *shell);
-int				export(t_shell *shell);
+int				echo(t_shell *shell);
 int				unset(t_shell *shell);
-int				ft_exit(void);
+int				export(t_shell *shell);
 void			search(t_shell *shell);
+int				ft_exit(t_shell *shell);
 
-char			*env_paste(t_env **beg, char *str);
-t_prs			*parse_start(t_env *env);
-t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf);
-int				prs_n_check(char **buf, t_env *env, t_prs *prs, char **str);
-char			*no_qoute(t_env *env, char **buf, char *str);
-char			*one_qoute(char *str, char **buf);
-char			*two_quote(t_env *env, char *str, char **buf);
-char			*env_paste(t_env **beg, char *str);
-char			*value_paste(char *str, char *tmp, int j, char *value);
-t_prs			*prslstback(t_prs *prs, char command);
-t_prs			*prslst_free(t_prs *prs);
-char			**add_str_to_array(char ***arr, char **str);
-char			*add_char_to_str(char **str, char c);
-char			**free_arr(char **arr);
+/*
+** Pipe - redirect
+*/
+
+int				close_pipe(t_shell *shell);
+int				create_pipe(t_shell *shell);
+int				redirect_left(t_shell *shell, char *filename);
+int				redirect_right(t_shell *shell, char *filename, int type);
+
+/*
+** Handlers
+*/
+
+int				ft_perror(char *str);
+int				ft_perror_exit(char *str);
+void			ft_ignore(int signal);
 
 #endif

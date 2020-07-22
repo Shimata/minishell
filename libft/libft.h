@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 21:05:26 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/21 10:59:32 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/22 02:37:01 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char const *s, int fd);
-void				ft_putendl_fd(char const *s, int fd);
-void				ft_putnbr_fd(int n, int fd);
+int					ft_putchar_fd(char c, int fd);
+int					ft_putstr_fd(char const *s, int fd);
+int					ft_putendl_fd(char const *s, int fd);
+int					ft_putnbr_fd(int n, int fd);
 int					get_next_line(int fd, char **line);
 
 /*
@@ -87,7 +87,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 
 /*
-**		Math & Utility
+** Math & Utility
 */
 
 size_t				ft_sqrt(size_t n);
@@ -98,7 +98,7 @@ int					ft_fput(const char *str, void *s1, void *s2, int fd);
 void				ft_swap(void **ptr1, void **ptr2);
 
 /*
-**		char ** manipulation
+** char ** manipulation
 */
 
 size_t				ft_tablen(char **tab);

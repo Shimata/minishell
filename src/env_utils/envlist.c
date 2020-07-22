@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   envlist.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 17:38:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/22 05:13:14 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int			ft_envsize(t_env *lst)
-{
-	t_env	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = lst;
-	while (tmp && ++i)
-		tmp = tmp->next;
-	return (i);
-}
 
 /*
 **	Deletes an element and attempts to
@@ -40,32 +28,8 @@ t_env		*ft_envdelone(t_env **env)
 		(*env)->name ? free((*env)->name) : 0;
 		(*env)->value ? free((*env)->value) : 0;
 		free((*env));
-		(*env) = NULL;
 	}
 	return (NULL);
-}
-
-char		**ft_env_to_tab(t_env *env)
-{
-	char	**res;
-	int		size;
-	int		i;
-
-	if (env->prev)
-		while (env->prev)
-			env = env->prev;
-	size = ft_envsize(env);
-	if (!(res = (char **)malloc(sizeof(char *) * (size + 1))))
-		return (NULL);
-	i = -1;
-	while (++i < size)
-	{
-		if (!(res[i] = ft_strjoin_dlm(env->name, "=", env->value)))
-			return (ft_tabclear(res));
-		env = env->next ? env->next : env;
-	}
-	res[i] = NULL;
-	return (res);
 }
 
 /*
@@ -108,7 +72,10 @@ t_env		*ft_find_env(t_env *env, char *key)
 	while (env)
 	{
 		if (tmp && !ft_strcmp(env->name, tmp))
+		{
+			ft_del(tmp);
 			return (env);
+		}
 		env = env->next;
 	}
 	ft_del(tmp);
@@ -116,11 +83,36 @@ t_env		*ft_find_env(t_env *env, char *key)
 }
 
 /*
+**	finds an element by name, frees its value and sets
+**	the value given as the third param.
+*/
+
+t_env		*ft_switch_env(t_env *env, char *name, char *value)
+{
+	t_env	*tmp;
+	char	*str;
+
+	str = NULL;
+	if ((tmp = ft_find_env(env, name)))
+	{
+		ft_del(tmp->value);
+		tmp->value = value;
+	}
+	else
+	{
+		str = ft_strjoin_dlm(name, "=", value);
+		tmp = ft_envnew(str);
+		ft_del(str);
+	}
+	return (tmp);
+}
+
+/*
 **	Adds a KEY=value pair to the back of the list and
 **	returns a pointer to the (new) last element.
 */
 
-t_env		*ft_env_push_back(t_env **env, t_env *new)
+t_env		*ft_env_add_back(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
@@ -134,5 +126,5 @@ t_env		*ft_env_push_back(t_env **env, t_env *new)
 		tmp->next = new;
 		new->prev = tmp;
 	}
-	return (tmp);
+	return (new);
 }
