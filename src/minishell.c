@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:55:16 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/24 21:05:41 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ void	exec(char **tab, t_shell *shell)
 	search(shell);
 }
 
-int		command_check_n_run(t_shell *shell, t_prs *prs)
+int		command_check_n_run(t_shell *shell, t_prs **prs)
 {
-	if (prs->command == '<')
-		redirect_left(shell, prs->arg[0]);
-	else if (prs->command == '>')
+	if ((*prs)->command == '<')
+		redirect_left(shell, (*prs)->arg[0]);
+	else if ((*prs)->command == '>')
 	{
-		prs = prs->next;
-		redirect_right(shell, prs->arg[0], prs->prev->dbl);
-		prs->command = ';';
+		(*prs) = (*prs)->next;
+		redirect_right(shell, (*prs)->arg[0], (*prs)->prev->dbl);
+		(*prs)->command = ';';
 	}
 	else
-		exec(prs->arg, shell);
+		exec((*prs)->arg, shell);
 	return (1);
 }
 
@@ -67,8 +67,6 @@ int		command_chek_and_prepare(t_shell *shell, t_prs **prs)
 			(*prs) = (*prs)->next;
 			return(0);
 		}
-		if ((*prs)->command == '<')
-			redirect_left(shell, (*prs)->arg[0]);
 	}
 	return (1);
 }
@@ -86,7 +84,7 @@ int		minishell(t_shell *shell)
 			shell->split = prs->arg;
 			if(!command_chek_and_prepare(shell, &prs))
 				continue ;
-			command_check_n_run(shell, prs);
+			command_check_n_run(shell, &prs);
 			if (prs->command == ';' && (prs = prs->next))
 				continue ;
 			if (close_pipe(shell) == -1)
@@ -96,14 +94,14 @@ int		minishell(t_shell *shell)
 			prs = prs->next;
 		}
 		prslst_free(shell->cmds);
-		ft_fput(PROMPT, SHELL, ft_strrchr(shell->cwd, '/') + 1, 1);
+		ft_fput(PROMPT, SHELL, shell->cwd, 1);
 	}
 	return (-1);
 }
 
 int		main(int ac, char **av, char **environ)
 {
-	t_shell	shell;
+	//t_shell	shell;
 	char	**tmp;
 
 	tmp = environ;
@@ -121,9 +119,9 @@ int		main(int ac, char **av, char **environ)
 	shell.pid_prev = 0;
 	shell.cwd = getcwd(NULL, 42);
 	if (ac && av[0])
-		ft_fput(STARTUP, SHELL, ft_strrchr(shell.cwd, '/') + 1, 1);
+		ft_fput(PROMPT, SHELL, shell.cwd, 1);
 	shell.cp_in = dup(0);
 	shell.cp_out = dup(1);
-	errno ? ft_perror_exit("b42sh"): 0;
+	//errno ? ft_perror_exit("b42sh"): 0;
 	return (minishell(&shell));
 }

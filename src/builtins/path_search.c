@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:01:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/24 18:21:49 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ static int	path_search(t_shell *shell)
 	while (*shell->path)
 	{
 		if (!(dirp = opendir(*shell->path)))
-			return (ft_perror(*shell->path));
+		{
+			shell->path++;
+			continue ;
+		}
 		while ((entry = readdir(dirp)))
 			if (!ft_strcmp(entry->d_name, shell->split[0]))
 				if (!(shell->cmd = ft_strjoin_dlm(*shell->path, "/", \

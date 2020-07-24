@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:18:08 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/24 18:29:06 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ typedef struct	s_shell
 	int			status;
 	int			fd[2];
 }				t_shell;
+
+typedef t_shell	g_shell;
+g_shell shell;
 
 /*
 ** Parser 

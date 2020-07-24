@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:34:43 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 03:35:43 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/24 21:05:22 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ int		redirect_left(t_shell *shell, char *filename)
 
 	if (fd > 0)
 	{
+		kill(shell->pid, 19);
 		while(read(fd, buff, 1))
 			write(shell->fd[WRITE_END], buff, 1);
+		kill(shell->pid, 18);
 		close(fd);
+		
 	}
 	else
 		ft_perror(filename);
