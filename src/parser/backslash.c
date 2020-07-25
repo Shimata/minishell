@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   backslash.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/02 17:09:49 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 00:44:09 by jalvaro          ###   ########.fr       */
+/*   Created: 2020/07/26 01:36:11 by jalvaro           #+#    #+#             */
+/*   Updated: 2020/07/26 01:54:43 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+void			backslash(char **buf, int *ret)
 {
-	if (!s)
-		return (0);
-	while (*s != (char)c && *s)
-		s++;
-	return (*s == (char)c ? (char *)s : NULL);
+	*ret = read(0, *buf, 1);
+	if ((*buf)[0] == '\n')
+	{
+		write(1, "> ", 2);
+		*ret = read(0, *buf, 1);
+	}
 }

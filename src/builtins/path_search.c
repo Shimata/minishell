@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 19:25:09 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 01:34:24 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static int	path_search(t_shell *shell)
 					ft_perror_exit("b42h");
 		tmp++;
 		closedir(dirp);
+		if (shell->cmd)
+			break ;
 	}
 	if (!shell->cmd)
 		shell->cmd = ft_strdup(shell->split[0]);

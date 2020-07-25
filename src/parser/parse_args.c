@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:19:18 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 22:25:39 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 01:36:21 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char		*two_quote(t_env *env, char *str, char **buf)
 	ret = read(0, *buf, 1);
 	while (!ret || (*buf)[0] != '"')
 	{
+		if ((*buf)[0] == '\\')
+			backslash(buf, &ret);
 		if (ret && !(str = add_char_to_str(&str, (*buf)[0])))
 			return (0);
 		if ((*buf)[0] == '\n')
@@ -60,13 +62,10 @@ static char		*no_qoute(t_env *env, char **buf, char *str)
 	int		ret;
 
 	ret = 1;
-	while (!ft_strchr(";\\<>| \n\'\"", *buf[0]))
+	while (!ft_strchr(";<>| \n\'\"", *buf[0]))
 	{
-		if (ret && (*buf)[0] == 92)
-		{
-			read(0, *buf, 1);
-			continue ;
-		}
+		if ((*buf)[0] == '\\')
+			backslash(buf, &ret);
 		if (ret && !(str = add_char_to_str(&str, (*buf)[0])))
 			return (0);
 		ret = read(0, *buf, 1);
@@ -87,7 +86,7 @@ static int		prs_n_check(char **buf, t_env *env, t_prs *prs, char **str)
 		if (!(*str = two_quote(env, *str, buf)))
 			return (0);
 	}
-	if (!ft_strchr(";\\<>| \n\'\"", (*buf)[0]))
+	if (!ft_strchr(";<>| \n\'\"", (*buf)[0]))
 	{
 		if (!(*str = no_qoute(env, buf, *str)))
 			return (0);

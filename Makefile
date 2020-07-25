@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+         #
+#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/25 16:20:46 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/26 01:37:06 by jalvaro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ BUILT :=		echo.c			cd_pwd.c		\
 				env_export_unset.c
 
 PARSE :=		env_paste.c		parse_args.c	\
-				parse_utils.c	parse_start.c
+				parse_utils.c	parse_start.c	\
+				backslash.c
 
 ENVUT :=		envlist.c		ft_env_to_tab.c	\
 				ft_errors.c

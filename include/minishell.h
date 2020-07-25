@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 21:21:00 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 01:37:43 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf);
 char			*env_paste(t_env **beg, char *str);
 t_prs			*prslstback(t_prs *prs, char command);
 t_prs			*prslst_free(t_prs *prs);
+void			backslash(char **buf, int *ret);
 char			**add_str_to_array(char ***arr, char **str);
 char			*add_char_to_str(char **str, char c);
 char			**free_arr(char **arr);
@@ -119,7 +120,8 @@ int				ft_exit(t_shell *shell);
 int				close_pipe(t_shell *shell);
 int				create_pipe(t_shell *shell);
 int				redirect_left(t_shell *shell, char *filename);
-int				redirect_right(t_shell *shell, char *filename, int type, t_prs **prs);
+int				redirect_right(t_shell *shell, char *filename,
+								int type, t_prs **prs);
 
 /*
 ** Handlers
