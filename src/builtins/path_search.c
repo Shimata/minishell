@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 19:29:44 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 19:25:09 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	path_search(t_shell *shell)
 	char		**tmp;
 
 	tmp = shell->path;
-	while (*tmp)
+	while (tmp && *tmp)
 	{
 		if (!(dirp = opendir(*tmp)))
 		{
@@ -81,6 +81,6 @@ void		search(t_shell *shell)
 		execve(shell->cmd, shell->split, shell->environ);
 		ft_fput("b42h: %s: command not found\n", shell->split[0], 0, 2);
 		prslst_free(shell->cmds);
-		exit(0);
+		exit(127);
 	}
 }

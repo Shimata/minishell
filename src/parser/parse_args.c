@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:19:18 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:24:27 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 18:36:03 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf)
 		if (buf[0] == '\n')
 			break ;
 	}
-	status == 0 ? exit(0) : 0;
+	status == 0 ? ft_exit(0) : 0;
 	return (prs);
 }
