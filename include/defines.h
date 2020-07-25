@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:49:48 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:14:07 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:50:36 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define BAD_PARAM "invalid parameter name"
 # define NOT_IDENT "export: not an identifier: %s\n"
 # define SYNTAX_ERR "b42h: syntax error near unexpected token "
+# define EXIT_ARG "b42h: exit: %s: numeric argument required\n"
 # define REDIRECTS "|<>"
 # define STARTUP "\nminishell by wquinoa and jalvaro\n\n"
 # define SHELL "\033[32m➜ \033[34;1mb42h-0.5\033[0m"

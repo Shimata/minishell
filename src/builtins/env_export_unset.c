@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 19:01:11 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:57:54 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void		ft_lastcmd(t_shell *shell)
 {
-	t_env	*lastcmd;
+	t_env	*lcmd;
 
-	lastcmd = 0;
+	lcmd = 0;
 	if (shell->split)
 	{
-		lastcmd = ft_find_env(shell->envir, "_");
-		free(lastcmd->value);
-		lastcmd->value = ft_strdup(shell->split[ft_tablen(shell->split) - 1]);
-		!lastcmd->value ? ft_perror_exit("b42h") : 0;
+		lcmd = ft_find_env(shell->envir, "_");
+		free(lcmd->value);
+		if (ft_strcmp("exit", shell->split[0]))
+			lcmd->value = ft_strdup(shell->split[ft_tablen(shell->split) - 1]);
+		else
+			lcmd->value = ft_strdup("");
+		!lcmd->value ? ft_perror_exit("b42h") : 0;
 	}
 }
 
