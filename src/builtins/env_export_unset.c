@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 04:52:35 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:24:49 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			export(t_shell *shell)
 	}
 	if (!(shell->last = ft_env_add_back(&shell->envir,
 	ft_envnew(shell->split[1]))))
-		return(ft_perror("export"));
+		return (ft_perror("export"));
 	return (0);
 }
 

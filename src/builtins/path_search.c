@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/24 18:21:49 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:32:48 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		search(t_shell *shell)
 	wait(&shell->status);
 	if (WIFEXITED(shell->status))
 		ft_switch_env(shell->envir, "?",
-		ft_itoa((WEXITSTATUS(shell->status)))); 
+		ft_itoa((WEXITSTATUS(shell->status))));
 	if (pid == 0)
 	{
 		if (ft_isalnum(shell->split[0][0]))

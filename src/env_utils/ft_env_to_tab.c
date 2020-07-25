@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_to_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 05:07:04 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:09:02 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:21:37 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ char		**ft_env_to_tab(t_env *env)
 	res[i] = NULL;
 	return (res);
 }
-

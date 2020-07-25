@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/19 14:05:37 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/13 14:33:57 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:17:30 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int							ft_define_type(const char type, va_list arg, \
 															t_spec *spcfier);
 void						ft_pad(char p_type, int len, t_spec *specifier);
 void						ft_putnbr_basep(t_int64 n, t_uint8 base, t_spec *s);
-void						ft_putull_basep(t_uint64 n, t_uint8 base, t_spec *s);
+void						ft_putull_basep(t_uint64 n, t_uint8 base,
+											t_spec *s);
 char						*ft_strchr(const char *s, int c);
 size_t						ft_strlen(char const *s);
 int							ft_isdigit(int c);

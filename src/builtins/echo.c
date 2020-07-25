@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:16:50 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:36:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:21:54 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	echo(t_shell *shell)
 		}
 	}
 	else
-		return(write(1, "\n", 1));
+		return (write(1, "\n", 1));
 	return (write(1, "\n", flag ? 1 : 0));
 }

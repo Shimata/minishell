@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/24 21:05:41 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:37:35 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	exec(char **tab, t_shell *shell)
 {
-	static int	(*funcs[8])() = {&echo, &cd, &pwd, &export, &unset, &env, &ft_exit};
-	const char	*ar[9] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", 0};
+	static int	(*funcs[8])() = {&echo, &cd, &pwd, &export,
+									&unset, &env, &ft_exit};
+	const char	*ar[9] = {"echo", "cd", "pwd", "export",
+							"unset", "env", "exit", 0};
 	int			i;
 
 	if (!tab || !*tab)
@@ -34,7 +36,7 @@ void	exec(char **tab, t_shell *shell)
 
 int		command_check_n_run(t_shell *shell, t_prs **prs)
 {
-	if ((*prs)->command == '<')
+	if ((*prs)->arg && (*prs)->command == '<')
 		redirect_left(shell, (*prs)->arg[0]);
 	else if ((*prs)->command == '>')
 	{
@@ -65,7 +67,7 @@ int		command_chek_and_prepare(t_shell *shell, t_prs **prs)
 		if (!shell->pid)
 		{
 			(*prs) = (*prs)->next;
-			return(0);
+			return (0);
 		}
 	}
 	return (1);
@@ -82,7 +84,7 @@ int		minishell(t_shell *shell)
 		while (prs)
 		{
 			shell->split = prs->arg;
-			if(!command_chek_and_prepare(shell, &prs))
+			if (!command_chek_and_prepare(shell, &prs))
 				continue ;
 			command_check_n_run(shell, &prs);
 			if (prs->command == ';' && (prs = prs->next))
@@ -101,7 +103,6 @@ int		minishell(t_shell *shell)
 
 int		main(int ac, char **av, char **environ)
 {
-	//t_shell	shell;
 	char	**tmp;
 
 	tmp = environ;

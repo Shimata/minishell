@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/24 18:29:06 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:21:06 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "../libft/libft.h"
 # include "defines.h"
 
-typedef struct dirent t_dirent;
+typedef struct dirent	t_dirent;
 
 typedef union	u_status
 {
@@ -72,10 +72,10 @@ typedef struct	s_shell
 }				t_shell;
 
 typedef t_shell	g_shell;
-g_shell shell;
+g_shell			shell;
 
 /*
-** Parser 
+** Parser
 */
 
 char			*env_paste(t_env **beg, char *str);
@@ -88,16 +88,15 @@ char			**add_str_to_array(char ***arr, char **str);
 char			*add_char_to_str(char **str, char c);
 char			**free_arr(char **arr);
 
-
 /*
 ** Env utils
 */
 
 t_env			*ft_envnew(char *content);
 t_env			*ft_envdelone(t_env **env);
-t_env			*ft_find_env(t_env *env, char* key);
+t_env			*ft_find_env(t_env *env, char *key);
 t_env			*ft_switch_env(t_env *env, char *name, char *value);
-t_env			*ft_env_add_back(t_env** env, t_env *new);
+t_env			*ft_env_add_back(t_env **env, t_env *new);
 char			**ft_env_to_tab(t_env *env);
 
 /*

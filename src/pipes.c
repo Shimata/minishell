@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:32:28 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/24 21:17:11 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:34:58 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		close_pipe(t_shell *shell)
 {
 	int ret1;
 	int ret2;
-	
+
 	ret1 = 0;
 	ret2 = 0;
 	if (!shell->pid)
@@ -28,9 +28,9 @@ int		close_pipe(t_shell *shell)
 		if (ret1 == -1 || ret2 == -1)
 			return (ft_perror(shell->split[0]));
 		close(shell->fd[WRITE_END]);
-		wait(NULL);						//вот тут какая-то проблема, нужно подобрать условие. Родитель слишком спешит.
+		wait(NULL);
 		if (shell->pid_prev != -1)
-			exit (0);
+			exit(0);
 		shell->pid = -1;
 	}
 	return (1);
@@ -57,4 +57,3 @@ int		create_pipe(t_shell *shell)
 	}
 	return (1);
 }
-

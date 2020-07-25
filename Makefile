@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/22 05:24:27 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/25 13:52:58 by jalvaro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ CF = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(S_FILES) | libft
-	@gcc $^ ./libft/libft.a -I $(I_DIR) -o $(NAME)
+	@gcc -g $^ ./libft/libft.a -I $(I_DIR) -o $(NAME)
 	@echo "$(MADE_MSG)$(NAME)$(WHT)\n"
 ifeq ($(WITH_BONUS),true)
 	@echo "	$(WHT1)...added $(GRN1)ft_printf$(WHT)\n"
