@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:21:06 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:05:06 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ typedef struct	s_shell
 	int			fd[2];
 }				t_shell;
 
-typedef t_shell	g_shell;
-g_shell			shell;
+t_shell			g_shell;
 
 /*
 ** Parser
@@ -93,6 +92,7 @@ char			**free_arr(char **arr);
 */
 
 t_env			*ft_envnew(char *content);
+void			ft_lastcmd(t_shell *shell);
 t_env			*ft_envdelone(t_env **env);
 t_env			*ft_find_env(t_env *env, char *key);
 t_env			*ft_switch_env(t_env *env, char *name, char *value);

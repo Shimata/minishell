@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:32:28 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:34:58 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 14:48:08 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int		close_pipe(t_shell *shell)
 		if (ret1 == -1 || ret2 == -1)
 			return (ft_perror(shell->split[0]));
 		close(shell->fd[WRITE_END]);
-		wait(NULL);
+		wait(&shell->status);
+		if (WIFEXITED(shell->status))
+			ft_switch_env(shell->envir, "?",
+			ft_itoa((WEXITSTATUS(shell->status))));
 		if (shell->pid_prev != -1)
 			exit(0);
 		shell->pid = -1;

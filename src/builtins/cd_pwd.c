@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:23:41 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:01:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:31:21 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	cd(t_shell *shell)
 	chdir(res);
 	free(res);
 	tmp->value = getcwd(NULL, 0);
-	shell->cwd = tmp->value;
+	tmp->value ? shell->cwd = tmp->value : 0;
 	return (ft_perror("cd"));
 }
 

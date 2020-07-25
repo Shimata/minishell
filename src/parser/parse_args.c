@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/25 16:38:47 by jalvaro          ###   ########.fr       */
+/*   Created: 2020/07/25 16:19:18 by wquinoa           #+#    #+#             */
+/*   Updated: 2020/07/25 16:24:27 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*two_quote(t_env *env, char *str, char **buf)
+static char		*two_quote(t_env *env, char *str, char **buf)
 {
 	int		ret;
 
@@ -34,7 +34,7 @@ static char	*two_quote(t_env *env, char *str, char **buf)
 	return (str);
 }
 
-static char	*one_qoute(char *str, char **buf)
+static char		*one_qoute(char *str, char **buf)
 {
 	int		ret;
 
@@ -127,57 +127,4 @@ t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf)
 	}
 	status == 0 ? exit(0) : 0;
 	return (prs);
-}
-
-t_prs			*prs_args_check(t_env *env, void **beg, char *buf)
-{
-	t_prs	*prs;
-
-	prs = *beg;
-	while (prs)
-	{
-		if (prs->arg && prs->command == '|' && (!prs->command ||
-			!prs->next->arg))
-		{
-			write(1, "> ", 2);
-			if (!parseargs(env, prs->next, *beg, buf))
-				return (0);
-			if (!prs->next || !prs->next->arg)
-				continue;
-		}
-		if (prs->command && (!prs->next || !prs->next->arg))
-		{
-			write(1, "b42h-0.5: syntax error near unexpected token ", 45);
-			write(1, &prs->command, 1);
-			write(1, "\n", 1);
-			prslst_free(*beg);
-			*beg = prslstback(prs, 0);
-		}
-		prs = prs->next;
-	}
-	return (1);
-}
-
-t_prs			*parse_start(t_env *env)
-{
-	t_prs	*prs;
-	void	*beg;
-	char	*buf;
-
-	prs = 0;
-	prs = prslstback(prs, 0);
-	beg = prs;
-	buf = malloc(1);
-	if (!prs || !buf || read(0, buf, 0) == -1)
-	{
-		free(prs);
-		return (0);
-	}
-	if (!parseargs(env, prs, beg, buf))
-		return (0);
-	prs = beg;
-	if (!prs_args_check(env, &beg, buf))
-		exit(0);
-	free(buf);
-	return (beg);
 }

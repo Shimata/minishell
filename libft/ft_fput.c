@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 01:47:17 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/20 16:13:10 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:09:57 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	ft_specs(char c, void *s, int fd)
 		write(fd, (char *)s, ft_strlen((char *)s));
 	else if (c == 'd' || c == 'i')
 		ft_putnbr_fd(*(int *)s, fd);
+	else if (c == 'c')
+		write(fd, (char *)s, 1);
 }
 
 /*

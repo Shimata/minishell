@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:32:48 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:47:06 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ void		search(t_shell *shell)
 			ft_perror_exit(shell->split[0]);
 		execve(shell->cmd, shell->split, shell->environ);
 		ft_fput("b42h: %s: command not found\n", shell->split[0], 0, 2);
-		exit(1);
+		exit(127);
 	}
 }

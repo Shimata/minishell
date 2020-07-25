@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env_export_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:24:49 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:16:25 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void		ft_lastcmd(t_shell *shell)
+{
+	t_env	*lastcmd;
+
+	lastcmd = ft_find_env(shell->envir, "_");
+	free(lastcmd->value);
+	lastcmd->value = ft_strdup(shell->split[ft_tablen(shell->split) - 1]);
+	!lastcmd->value ? ft_perror_exit("b42h") : 0;
+}
 
 int			env(t_shell *shell)
 {
@@ -19,7 +29,7 @@ int			env(t_shell *shell)
 	env = shell->envir;
 	while (env)
 	{
-		//if (*env->name != '?' || env->name[1])
+		if (*env->name != '?' || env->name[1])
 			ft_fput("%s=%s\n", env->name, env->value, 1);
 		env = env->next;
 	}

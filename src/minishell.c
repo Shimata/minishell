@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:37:35 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/25 16:16:34 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int		minishell(t_shell *shell)
 		while (prs)
 		{
 			shell->split = prs->arg;
+			ft_lastcmd(shell);
 			if (!command_chek_and_prepare(shell, &prs))
 				continue ;
 			command_check_n_run(shell, &prs);
@@ -96,7 +97,6 @@ int		minishell(t_shell *shell)
 			prs = prs->next;
 		}
 		prslst_free(shell->cmds);
-		ft_fput(PROMPT, SHELL, shell->cwd, 1);
 	}
 	return (-1);
 }
@@ -108,21 +108,23 @@ int		main(int ac, char **av, char **environ)
 	tmp = environ;
 	signal(SIGINT, ft_ignore);
 	signal(SIGQUIT, SIG_IGN);
-	ft_bzero(&shell, sizeof(shell));
+	ft_bzero(&g_shell, sizeof(t_shell));
 	while (*environ)
 	{
 		if (!ft_strncmp("PATH=", *environ, 5))
-			shell.path = ft_split(*environ + 5, ':');
-		shell.last = ft_env_add_back(&shell.envir, ft_envnew(*(environ++)));
+			if (!(g_shell.path = ft_split(*environ + 5, ':')))
+				ft_perror_exit("b42h");
+		g_shell.last = ft_env_add_back(&g_shell.envir, ft_envnew(*(environ++)));
+		!g_shell.last ? ft_perror_exit("b42sh") : 0;
 	}
-	shell.last = ft_env_add_back(&shell.envir, ft_envnew("?=0"));
-	shell.pid = -1;
-	shell.pid_prev = 0;
-	shell.cwd = getcwd(NULL, 42);
+	g_shell.last = ft_env_add_back(&g_shell.envir, ft_envnew("?=0"));
+	!g_shell.last ? ft_perror_exit("b42h") : 0;
+	g_shell.pid = -1;
+	g_shell.pid_prev = 0;
+	g_shell.cwd = ft_find_env(g_shell.envir, "PWD")->value;
 	if (ac && av[0])
-		ft_fput(PROMPT, SHELL, shell.cwd, 1);
-	shell.cp_in = dup(0);
-	shell.cp_out = dup(1);
-	//errno ? ft_perror_exit("b42sh"): 0;
-	return (minishell(&shell));
+		ft_putendl_fd(STARTUP, 1);
+	g_shell.cp_in = dup(0);
+	g_shell.cp_out = dup(1);
+	return (minishell(&g_shell));
 }
