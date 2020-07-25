@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 15:47:06 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 19:29:44 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,26 @@ static int	path_search(t_shell *shell)
 {
 	DIR			*dirp;
 	t_dirent	*entry;
+	char		**tmp;
 
-	while (*shell->path)
+	tmp = shell->path;
+	while (*tmp)
 	{
-		if (!(dirp = opendir(*shell->path)))
+		if (!(dirp = opendir(*tmp)))
 		{
-			shell->path++;
+			tmp++;
 			continue ;
 		}
 		while ((entry = readdir(dirp)))
 			if (!ft_strcmp(entry->d_name, shell->split[0]))
-				if (!(shell->cmd = ft_strjoin_dlm(*shell->path, "/", \
+				if (!(shell->cmd = ft_strjoin_dlm(*tmp, "/", \
 				shell->split[0])))
-					return (0);
-		shell->path++;
+					ft_perror_exit("b42h");
+		tmp++;
 		closedir(dirp);
 	}
+	if (!shell->cmd)
+		shell->cmd = ft_strdup(shell->split[0]);
 	return (0);
 }
 
@@ -76,6 +80,7 @@ void		search(t_shell *shell)
 			ft_perror_exit(shell->split[0]);
 		execve(shell->cmd, shell->split, shell->environ);
 		ft_fput("b42h: %s: command not found\n", shell->split[0], 0, 2);
-		exit(127);
+		prslst_free(shell->cmds);
+		exit(0);
 	}
 }

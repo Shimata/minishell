@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_start.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/25 16:21:01 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 19:38:16 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int				prs_args_check(t_env *env, void **beg, char *buf)
 		{
 			ft_fput("%s: %c\n", SYNTAX_ERR, &prs->command, 2);
 			prslst_free(*beg);
-			*beg = prslstback(prs, 0);
+			*beg = 0;
+			prs = prslstback(*beg, 0);
+			*beg = prs;
 		}
 		prs = prs->next;
 	}
