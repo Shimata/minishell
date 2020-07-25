@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 19:36:46 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:17:56 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,7 @@ int			unset(t_shell *shell)
 		}
 		elem = ft_find_env(shell->envir, *tab);
 		if (!ft_strcmp(elem->name, "PATH"))
-		{
-			if (elem->value)
-				shell->path = ft_tabclear(shell->path);
-		}
+			elem->value ? shell->path = ft_tabclear(shell->path) : 0;
 		ft_envdelone(&elem);
 		tab++;
 	}

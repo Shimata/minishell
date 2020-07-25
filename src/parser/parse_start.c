@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/25 19:50:01 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:19:15 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int				prs_args_check(t_env *env, void **beg, char *buf)
 			&& (!prs->next || !prs->next->arg))
 		{
 			ft_fput("%s: %c\n", SYNTAX_ERR, &prs->command, 2);
-			prslst_free(*beg);
-			*beg = 0;
+			*beg = prslst_free(*beg);
 			prs = prslstback(*beg, 0);
 			*beg = prs;
 		}

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:05:06 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 21:21:00 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int				ft_exit(t_shell *shell);
 int				close_pipe(t_shell *shell);
 int				create_pipe(t_shell *shell);
 int				redirect_left(t_shell *shell, char *filename);
-int				redirect_right(t_shell *shell, char *filename, int type);
+int				redirect_right(t_shell *shell, char *filename, int type, t_prs **prs);
 
 /*
 ** Handlers

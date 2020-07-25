@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 19:50:43 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 21:36:16 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		command_check_n_run(t_shell *shell, t_prs **prs)
 	else if ((*prs)->command == '>')
 	{
 		(*prs) = (*prs)->next;
-		redirect_right(shell, (*prs)->arg[0], (*prs)->prev->dbl);
+		redirect_right(shell, (*prs)->arg[0], (*prs)->prev->dbl, prs);
 		(*prs)->command = ';';
 	}
 	else

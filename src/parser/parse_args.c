@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:19:18 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 18:36:03 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:25:39 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +108,14 @@ t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf)
 	str = 0;
 	while ((status = read(0, buf, 1)))
 	{
-		if (prs->prev && prs->prev->command == '>' && buf[0] == '>')
+		if (!prs->arg && prs->prev &&
+		prs->prev->command == '>' && buf[0] == '>')
 		{
 			prs->prev->dbl = 1;
 			read(0, buf, 1);
 		}
 		while (buf[0] == ' ')
-		{
 			read(0, buf, 1);
-			continue ;
-		}
 		if (!prs_n_check(&buf, env, prs, &str))
 			return (prslst_free(beg));
 		if (!str && ft_strchr(";\\<>|", buf[0]))
