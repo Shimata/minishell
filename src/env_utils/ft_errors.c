@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 22:54:55 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 19:16:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 21:46:53 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ void	ft_ignore(int signal)
 			ft_fput(PROMPT, SHELL, g_shell.cwd, 1);
 		}
 	}
-	else if (signal == SIGQUIT && g_shell.pid == -1)
-	{
-		kill(-1, 3);
+	else if (signal == SIGQUIT && g_shell.cmds && g_shell.pid != 0)
 		ft_putendl_fd("Quit: 3", 2);
-	}
 }

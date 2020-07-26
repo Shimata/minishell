@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 01:34:24 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 21:39:08 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,6 @@ void		search(t_shell *shell)
 		prslst_free(shell->cmds);
 		exit(127);
 	}
+	if (WEXITSTATUS(shell->status) == 3)
+		ft_putendl_fd("Quit: 3", 2);
 }
