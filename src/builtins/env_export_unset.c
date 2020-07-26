@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 01:53:06 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 14:30:39 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static int	swap_out(t_shell *shell, t_env *elem, char *tmp)
 	if (!ft_strcmp(elem->name, "PATH"))
 	{
 		ft_tabclear(shell->path);
-		if (!(shell->path = ft_split(ft_strchr(shell->split[1], '=') + 1 , ':')))
+		if (!(shell->path = ft_split(ft_strchr(shell->split[1],
+												'=') + 1,
+												':')))
 			return (ft_perror_exit("b42h"));
 	}
 	return ((elem->value = ft_strdup(ft_strchr(tmp, '=') + 1)) != 0);
