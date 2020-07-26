@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:19:18 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 01:36:21 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 20:13:12 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char		*two_quote(t_env *env, char *str, char **buf)
 	while (!ret || (*buf)[0] != '"')
 	{
 		if ((*buf)[0] == '\\')
-			backslash(buf, &ret);
+			backslash_q(buf, &ret, &str);
 		if (ret && !(str = add_char_to_str(&str, (*buf)[0])))
 			return (0);
 		if ((*buf)[0] == '\n')
@@ -65,7 +65,7 @@ static char		*no_qoute(t_env *env, char **buf, char *str)
 	while (!ft_strchr(";<>| \n\'\"", *buf[0]))
 	{
 		if ((*buf)[0] == '\\')
-			backslash(buf, &ret);
+			backslash_nq(buf, &ret, &str);
 		if (ret && !(str = add_char_to_str(&str, (*buf)[0])))
 			return (0);
 		ret = read(0, *buf, 1);

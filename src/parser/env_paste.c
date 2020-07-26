@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_paste.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 22:31:40 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/22 04:43:45 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 20:45:52 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char		*env_paste(t_env **beg, char *str)
 	char	*tmp;
 	t_env	*lst;
 
-	while ((tmp = ft_strchr(str, '$')))
+	while ((tmp = ft_strchr(str, '$')) && *(tmp + 1))
 	{
 		++tmp;
 		lst = *beg;

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 18:34:10 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 20:13:30 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ t_prs			*parseargs(t_env *env, t_prs *prs, void *beg, char *buf);
 char			*env_paste(t_env **beg, char *str);
 t_prs			*prslstback(t_prs *prs, char command);
 t_prs			*prslst_free(t_prs *prs);
-void			backslash(char **buf, int *ret);
+void			backslash_q(char **buf, int *ret, char **str);
+void			backslash_nq(char **buf, int *ret, char **str);
 char			**add_str_to_array(char ***arr, char **str);
 char			*add_char_to_str(char **str, char c);
 char			**free_arr(char **arr);

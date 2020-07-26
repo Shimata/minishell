@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 16:07:55 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 21:02:06 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,20 @@ int			export(t_shell *shell)
 
 	if (!(tmp = shell->split[1]))
 		return (env(shell));
-	if (!ft_strchr(tmp, '='))
-		return (1);
 	if ((elem = ft_find_env(shell->envir, shell->split[1])))
 		return (swap_out(shell, elem, tmp));
-	while (*tmp != '=')
+	while (*tmp && *tmp != '=')
 	{
 		if (!ft_isalpha(*tmp) && (*tmp != '_'))
 			return (ft_fput(NOT_IDENT, shell->split[1], 0, 1));
 		tmp++;
 	}
-	if (!(shell->last = ft_env_add_back(&shell->envir,
-	ft_envnew(shell->split[1]))))
-		return (ft_perror("export"));
+	if ((elem = ft_find_env(shell->envir, shell->split[1])))
+		return (swap_out(shell, elem, shell->split[1]));
+	if (*tmp == '=')
+		if (!(shell->last = ft_env_add_back(&shell->envir,
+		ft_envnew(shell->split[1]))))
+			return (swap_out(shell->last, elem, shell->split[1]));
 	return (0);
 }
 
@@ -86,8 +87,6 @@ int			unset(t_shell *shell)
 	char	**tab;
 	t_env	*elem;
 
-	if (!(shell->split[1]))
-		return (write(2, "unset: not enough arguments\n", 28));
 	tab = shell->split + 1;
 	while (*tab)
 	{

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:49:48 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 16:40:38 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 20:19:58 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define READ_LIMIT 100000
 # define O_TYPE(x) (x == 1 ? 0x0008 : 0x0400)
 # define BAD_PARAM "invalid parameter name"
-# define NOT_IDENT "export: not an identifier: %s\n"
+# define NOT_IDENT "b42h: export: %s: not a valid identifier\n"
 # define SYNTAX_ERR "b42h: syntax error near unexpected token "
 # define EXIT_ARG "b42h: exit: %s: numeric argument required\n"
 # define EXIT_MANY "b42h: exit: too many arguments"
