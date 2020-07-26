@@ -6,7 +6,7 @@
 /*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/26 01:35:46 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 12:38:04 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				prs_args_check(t_env *env, void **beg, char *buf)
 			if (!prs->next || !prs->next->arg)
 				continue ;
 		}
-		if ((prs->command == '>' || prs->command == '<')
+		if ((prs->command == '>' || prs->command == '<' || prs->command == ';')
 			&& (!prs->next || !prs->next->arg))
 		{
 			ft_fput("%s: %c\n", SYNTAX_ERR, &prs->command, 2);
