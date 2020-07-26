@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:23:41 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 15:31:21 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 16:08:41 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ int	pwd(t_shell *shell)
 {
 	char *cwd;
 
-	cwd = getcwd(NULL, 0);
-	if (errno)
+	if (!(cwd = getcwd(NULL, 0)))
 		return (ft_perror("pwd"));
 	ft_switch_env(shell->envir, "PWD", cwd);
 	ft_putendl_fd(cwd, 1);

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:30:56 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 22:19:43 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:44:31 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_exit(t_shell *shell)
 	{
 		status = shell->split[1] ? ft_atoi(shell->split[1]) : 0;
 		if (ft_tablen(shell->split) > 2)
-			return (ft_putendl_fd("b42h: exit: too many arguments", 2));
+			return (ft_putendl_fd(EXIT_MANY, 2));
 		while (shell->split[1][++i])
 		{
 			if (!ft_isdigit(shell->split[1][i]))

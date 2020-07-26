@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 22:30:18 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/20 17:26:37 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 16:42:54 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,13 @@ char	*add_char_to_str(char **str, char c)
 {
 	char	*tmp;
 	int		i;
-	int		k;
 
-	i = 0;
-	k = 0;
-	while (*str && (*str)[i])
-		i++;
-	if (!(tmp = (char *)malloc(sizeof(char) * (i + 2))))
-	{
-		free(*str);
-		return (0);
-	}
-	while (k < i)
-	{
-		tmp[k] = (*str)[k];
-		k++;
-	}
-	tmp[k] = c;
-	tmp[++k] = 0;
-	free(*str);
-	*str = 0;
+	i = ft_strlen(*str);
+	if (!(tmp = (char *)ft_calloc(i + 2, sizeof(char))))
+		return (ft_del(*str));
+	i = *str ? ft_strlcpy(tmp, *str, i + 2) : 0;
+	tmp[i] = c;
+	*str = ft_del(*str);
 	return (tmp);
 }
 
@@ -71,26 +58,17 @@ char	**add_str_to_array(char ***arr, char **str)
 {
 	char	**tmp;
 	int		i;
-	int		k;
 
-	i = 0;
-	k = 0;
-	while (*arr && (*arr)[i])
-		i++;
+	i = ft_tablen(*arr);
 	if (!(tmp = (char **)malloc(sizeof(char *) * (i + 2))))
 		return (0);
-	while (k < i)
-	{
-		tmp[k] = (*arr)[k];
-		k++;
-	}
-	if (!(tmp[k] = ft_strdup(*str)))
+	*arr ? ft_memcpy(tmp, *arr, sizeof(char*) * (i + 2)) : 0;
+	if (!(tmp[i] = ft_strdup(*str)))
 		return (free_arr(*arr));
-	tmp[++k] = 0;
+	tmp[++i] = 0;
 	free(*arr);
-	free(*str);
 	*arr = 0;
-	*str = 0;
+	*str = ft_del(*str);
 	return (tmp);
 }
 

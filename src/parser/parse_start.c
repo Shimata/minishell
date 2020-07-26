@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_start.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/26 14:28:31 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 16:26:58 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ int				prs_args_check(t_env *env, void **beg, char *buf)
 	return (1);
 }
 
+static void		green_or_red(void)
+{
+	if (*ft_find_env(g_shell.envir, "?")->value == '0')
+		ft_putstr_fd("\033[32m", 1);
+	else
+		ft_putstr_fd("\033[31m", 1);
+}
+
 t_prs			*parse_start(t_env *env)
 {
 	t_prs	*prs;
@@ -56,6 +64,7 @@ t_prs			*parse_start(t_env *env)
 		prs ? free(prs) : 0;
 		return (0);
 	}
+	green_or_red();
 	ft_fput(PROMPT, SHELL, g_shell.cwd, 1);
 	if (!parseargs(env, prs, beg, buf))
 		return (0);

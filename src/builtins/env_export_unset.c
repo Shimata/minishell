@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 14:30:39 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 16:07:55 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,18 @@ int			env(t_shell *shell)
 	return (0);
 }
 
-/*
-** swap out is bad
-*/
-
 static int	swap_out(t_shell *shell, t_env *elem, char *tmp)
 {
 	free(elem->value);
 	if (!ft_strcmp(elem->name, "PATH"))
 	{
 		ft_tabclear(shell->path);
-		if (!(shell->path = ft_split(ft_strchr(shell->split[1],
-												'=') + 1,
-												':')))
+		if (!(shell->path = ft_split(ft_strchr(shell->split[1], '=') + 1, ':')))
 			return (ft_perror_exit("b42h"));
 	}
-	return ((elem->value = ft_strdup(ft_strchr(tmp, '=') + 1)) != 0);
+	if (!(elem->value = ft_strdup(ft_strchr(tmp, '=') + 1)))
+		ft_perror("export");
+	return (1);
 }
 
 int			export(t_shell *shell)

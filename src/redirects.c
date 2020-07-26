@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:34:43 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 22:05:05 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 16:42:24 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ int		redirect_right(t_shell *shell, char *filename, int type, t_prs **prs)
 
 	while ((*prs)->next && (*prs)->command == '>')
 	{
-		fd = open((*prs)->arg[0], O_CREAT | O_WRONLY | O_TRUNC, 0666);
+		fd = open((*prs)->arg[0], O_CREAT, 0666);
 		fd < 0 ? ft_perror((*prs)->arg[0]) : close(fd);
 		(*prs) = (*prs)->next;
 	}
-	if (type == APPEND)
-		fd = open((*prs)->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
-	else
-		fd = open((*prs)->arg[0], O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	fd = open((*prs)->arg[0], O_CREAT | O_WRONLY | O_TYPE(type), 0666);
 	ret = 0;
 	if (fd > 0)
 	{
@@ -37,8 +34,9 @@ int		redirect_right(t_shell *shell, char *filename, int type, t_prs **prs)
 	}
 	close(shell->fd[READ_END]);
 	close(shell->fd[WRITE_END]);
-	dup2(shell->cp_in, STDIN);
-	return (dup2(shell->cp_out, STDOUT));
+	if (dup2(shell->cp_in, STDIN) == -1 || dup2(shell->cp_out, STDOUT) == -1)
+		return (ft_perror_exit("b42h"));
+	return (0);
 }
 
 int		redirect_left(t_shell *shell, char *filename)
