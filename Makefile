@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/26 01:37:06 by jalvaro          ###   ########.fr        #
+#    Updated: 2020/07/26 22:14:16 by wquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ DRK = \033[2m
 MADE_MSG = \r   $(WHT1)Created $(GRN1)
 DEL_MSG = \r   $(WHT1)Removed $(DRK)$(RED1)
 ERROR_MSG = "\n   $(WHT1)$(DRK)Nothing to $@$(WHT)\n"
-NORME = norminette $(S_FILES) | awk '{sub(/Norme/,"$(GRN)Norme$(WHT)")}1' | awk '{sub(/Error/,"$(RED)Error$(WHT)")}1'
+NORME = norminette $(S_FILES) $(I_DIR)/* | awk '{sub(/Norme/,"$(GRN)Norme$(WHT)")}1' | awk '{sub(/Error/,"$(RED)Error$(WHT)")}1'
 
 #	Variables
 NAME = minishell

@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:15:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/22 05:13:14 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 22:28:57 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_env		*ft_switch_env(t_env *env, char *name, char *value)
 		str = ft_strjoin_dlm(name, "=", value);
 		tmp = ft_envnew(str);
 		ft_del(str);
+		!tmp ? ft_perror_exit("env") : 0;
 	}
 	return (tmp);
 }

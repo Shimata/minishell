@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 22:54:55 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 21:46:53 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 22:35:50 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		ft_perror(char *str)
 		errno = 0;
 		return (-1);
 	}
+	if (!ft_switch_env(g_shell.envir, "?", ft_itoa(0)))
+		return (ft_perror_exit("malloc"));
 	return (0);
 }
 

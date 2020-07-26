@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 22:09:06 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 22:40:35 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int			env(t_shell *shell)
 			ft_fput("%s=%s\n", env->name, env->value, 1);
 		env = env->next;
 	}
+	if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
+		return (ft_perror("malloc"));
 	return (0);
 }
 
@@ -54,6 +56,8 @@ static int	swap_out(t_shell *shell, t_env *elem, char *tmp)
 	}
 	if (!(elem->value = ft_strdup(ft_strchr(tmp, '=') + 1)))
 		ft_perror("export");
+	if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
+		return (ft_perror("malloc"));
 	return (1);
 }
 
@@ -103,5 +107,7 @@ int			unset(t_shell *shell)
 		ft_envdelone(&elem);
 		tab++;
 	}
+	if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
+		return (ft_perror("malloc"));
 	return (0);
 }
