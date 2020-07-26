@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 22:54:55 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 18:29:35 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 19:16:24 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@ int		ft_perror_exit(char *str)
 
 void	ft_ignore(int signal)
 {
-	if (signal == SIGINT && g_shell.pid != -1)
-		kill(g_shell.pid, 9);
-	else if (signal == SIGQUIT)
-		(void)signal;
-	else
+	if (signal == SIGINT)
 	{
-		ft_putchar_fd('\n', 1);
-		ft_fput(PROMPT, SHELL, g_shell.cwd, 1);
+		if (g_shell.pid > 0)
+			kill(g_shell.pid, 9);
+		else if (!g_shell.cmds && g_shell.pid != 0)
+		{
+			ft_putstr_fd("\n", 1);
+			ft_fput(PROMPT, SHELL, g_shell.cwd, 1);
+		}
+	}
+	else if (signal == SIGQUIT && g_shell.pid == -1)
+	{
+		kill(-1, 3);
+		ft_putendl_fd("Quit: 3", 2);
 	}
 }

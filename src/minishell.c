@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 21:36:16 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 18:50:29 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int		minishell(t_shell *shell)
 			command_check_n_run(shell, &prs);
 			if (prs->command == ';' && (prs = prs->next))
 				continue ;
-			if (close_pipe(shell) == -1)
+			if (close_pipe(shell, prs->command) == -1)
 				return (-1);
 			if (shell->pid)
 				break ;
 			prs = prs->next;
 		}
-		prslst_free(shell->cmds);
+		shell->cmds = prslst_free(shell->cmds);
 	}
 	return (-1);
 }
@@ -105,9 +105,9 @@ int		main(int ac, char **av, char **environ)
 {
 	char	**tmp;
 
-	tmp = environ;
 	signal(SIGINT, ft_ignore);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ft_ignore);
+	tmp = environ;
 	ft_bzero(&g_shell, sizeof(t_shell));
 	while (*environ)
 	{

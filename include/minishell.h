@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 01:37:43 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/26 18:34:10 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct	s_shell
 
 t_shell			g_shell;
 
+int				minishell(t_shell *shell);
+
 /*
 ** Parser
 */
@@ -117,7 +119,7 @@ int				ft_exit(t_shell *shell);
 ** Pipe - redirect
 */
 
-int				close_pipe(t_shell *shell);
+int				close_pipe(t_shell *shell, char cmd);
 int				create_pipe(t_shell *shell);
 int				redirect_left(t_shell *shell, char *filename);
 int				redirect_right(t_shell *shell, char *filename,

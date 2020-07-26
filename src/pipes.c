@@ -6,20 +6,20 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:32:28 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 14:48:08 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/26 18:34:46 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		close_pipe(t_shell *shell)
+int		close_pipe(t_shell *shell, char cmd)
 {
 	int ret1;
 	int ret2;
 
 	ret1 = 0;
 	ret2 = 0;
-	if (!shell->pid)
+	if (!shell->pid && cmd != ';')
 		exit(0);
 	else if (shell->pid > 0)
 	{
