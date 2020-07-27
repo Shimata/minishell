@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 01:36:11 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/27 18:37:21 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/27 16:43:58 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void			backslash_nq(char **buf, int *ret, char **str)
 	}
 }
 
-
-int		ft_write_file(char *filename)
+int				ft_write_file(char *filename)
 {
 	int		fd;
 	int		flag;

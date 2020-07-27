@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 01:47:17 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/25 16:09:57 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 17:41:00 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int			ft_fput(const char *str, void *s1, void *s2, int fd)
 	char	*end;
 	int		count;
 
+	if (!s1)
+		return (-2);
 	count = 0;
 	while (*str)
 	{

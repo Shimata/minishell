@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 22:30:18 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/26 16:42:54 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 16:56:15 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_prs	*prslstback(t_prs *prs, char command)
 		prs->next = malloc(sizeof(t_prs));
 		prs = prs->next;
 	}
+	if (!prs)
+		ft_perror_exit("malloc");
 	prs->command = 0;
 	prs->arg = 0;
 	prs->next = 0;

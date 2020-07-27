@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/27 18:36:06 by jalvaro          ###   ########.fr       */
+/*   Updated: 2020/07/27 17:06:54 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	exec(char **tab, t_shell *shell)
 	{
 		if (!ft_strncmp(ar[i], tab[0], sizeof(ar[i])))
 		{
-			funcs[i](shell);
+			if (funcs[i](shell) >= 0)
+				if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
+					ft_perror_exit("malloc");
 			return ;
 		}
 	}
@@ -103,7 +105,7 @@ int		minishell(t_shell *shell)
 		}
 		shell->cmds = prslst_free(shell->cmds);
 	}
-	return (-1);
+	return (ft_perror("b42h"));
 }
 
 int		main(int ac, char **av, char **environ)

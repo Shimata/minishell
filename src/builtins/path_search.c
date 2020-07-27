@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:35:34 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 22:22:39 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 17:48:03 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_print_error(char *str)
+{
+	if (ft_fput("%s", ft_strjoin_dlm("b42h: ", str, \
+			": command not found\n"), 0, 2) == -2)
+		ft_fput("b42h: %s: command not found\n", str, 0, 2);
+}
 
 static int	dir_search(t_shell *shell)
 {
@@ -81,7 +88,7 @@ void		search(t_shell *shell)
 		if (!(shell->environ = ft_env_to_tab(shell->envir)))
 			ft_perror_exit(shell->split[0]);
 		execve(shell->cmd, shell->split, shell->environ);
-		ft_fput("b42h: %s: command not found\n", shell->split[0], 0, 2);
+		ft_print_error(shell->split[0]);
 		prslst_free(shell->cmds);
 		exit(127);
 	}

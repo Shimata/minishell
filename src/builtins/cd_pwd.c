@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:23:41 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 22:39:01 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 17:04:28 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	cd(t_shell *shell)
 	free(res);
 	tmp->value = getcwd(NULL, 0);
 	tmp->value ? shell->cwd = tmp->value : 0;
-	if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
-		return (ft_perror("malloc"));
 	return (ft_perror("cd"));
 }
 
@@ -46,7 +44,5 @@ int	pwd(t_shell *shell)
 	ft_switch_env(shell->envir, "PWD", cwd);
 	shell->cwd = ft_find_env(shell->envir, "PWD")->value;
 	ft_putendl_fd(cwd, 1);
-	if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
-		return (ft_perror("malloc"));
 	return (0);
 }

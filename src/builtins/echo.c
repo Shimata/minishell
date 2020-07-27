@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:16:50 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 22:39:59 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 17:04:15 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,5 @@ int	echo(t_shell *shell)
 	}
 	else
 		return (write(1, "\n", 1));
-	if (!ft_switch_env(shell->envir, "?", ft_itoa(0)))
-		return (ft_perror("malloc"));
 	return (write(1, "\n", flag ? 1 : 0));
 }

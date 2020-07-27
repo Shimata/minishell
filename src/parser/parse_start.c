@@ -6,7 +6,7 @@
 /*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 19:00:39 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/26 17:59:05 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 17:50:55 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_prs			*parse_start(t_env *env)
 		return (0);
 	}
 	green_or_red();
-	ft_fput(PROMPT, SHELL, g_shell.cwd, 1);
+	ft_fput(PROMPT, SHELL, g_shell.cwd, 2);
 	if (!parseargs(env, prs, beg, buf))
 		return (0);
 	prs = beg;
