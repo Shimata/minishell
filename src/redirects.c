@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:34:43 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 16:42:24 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 18:39:26 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		redirect_right(t_shell *shell, char *filename, int type, t_prs **prs)
 
 	while ((*prs)->next && (*prs)->command == '>')
 	{
-		fd = open((*prs)->arg[0], O_CREAT, 0666);
+		fd = open((*prs)->arg[0], O_CREAT | O_WRONLY | O_TYPE(type), 0666);
 		fd < 0 ? ft_perror((*prs)->arg[0]) : close(fd);
 		(*prs) = (*prs)->next;
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   backslash.c                                        :+:      :+:    :+:   */
+/*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 01:36:11 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/26 20:12:47 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 18:37:21 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,19 @@ void			backslash_nq(char **buf, int *ret, char **str)
 		write(1, "> ", 2);
 		*ret = read(0, *buf, 1);
 	}
+}
+
+
+int		ft_write_file(char *filename)
+{
+	int		fd;
+	int		flag;
+	char	buf[READ_LIMIT];
+
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		return (ft_perror("b42h"));
+	while ((flag = read(fd, buf, READ_LIMIT)))
+		write(1, buf, flag);
+	close(fd);
+	return (1);
 }

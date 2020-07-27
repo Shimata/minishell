@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/07 23:33:20 by wquinoa           #+#    #+#              #
-#    Updated: 2020/07/26 22:14:16 by wquinoa          ###   ########.fr        #
+#    Updated: 2020/07/27 18:36:59 by jalvaro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ BUILT :=		echo.c			cd_pwd.c		\
 
 PARSE :=		env_paste.c		parse_args.c	\
 				parse_utils.c	parse_start.c	\
-				backslash.c
+				parse_utils2.c
 
 ENVUT :=		envlist.c		ft_env_to_tab.c	\
 				ft_errors.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:59:51 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 20:13:30 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 18:36:26 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_prs			*prslstback(t_prs *prs, char command);
 t_prs			*prslst_free(t_prs *prs);
 void			backslash_q(char **buf, int *ret, char **str);
 void			backslash_nq(char **buf, int *ret, char **str);
+int				ft_write_file(char *filename);
 char			**add_str_to_array(char ***arr, char **str);
 char			*add_char_to_str(char **str, char c);
 char			**free_arr(char **arr);

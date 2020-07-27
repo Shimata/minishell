@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 05:40:40 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 22:15:51 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 18:36:06 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,12 @@ int		command_check_n_run(t_shell *shell, t_prs **prs)
 	{
 		(*prs) = (*prs)->next;
 		redirect_right(shell, (*prs)->arg[0], (*prs)->prev->dbl, prs);
-		(*prs)->command = ';';
+		if ((*prs)->command == '|')
+			return (0);
 	}
+	else if (shell->pid && (*prs)->command == '|' &&
+			(*prs)->prev && (*prs)->prev->command == '>')
+		ft_write_file((*prs)->arg[0]);
 	else
 		exec((*prs)->arg, shell);
 	return (1);
@@ -87,11 +91,12 @@ int		minishell(t_shell *shell)
 			ft_lastcmd(shell);
 			if (!command_chek_and_prepare(shell, &prs))
 				continue ;
-			command_check_n_run(shell, &prs);
-			if (prs->command == ';' && (prs = prs->next))
+			if (!command_check_n_run(shell, &prs))
 				continue ;
 			if (close_pipe(shell, prs->command) == -1)
 				return (-1);
+			if (prs->command == ';' && (prs = prs->next))
+				continue ;
 			if (shell->pid)
 				break ;
 			prs = prs->next;

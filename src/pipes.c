@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalvaro <jalvaro@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 03:32:28 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/26 18:34:46 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/27 18:29:32 by jalvaro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int		close_pipe(t_shell *shell, char cmd)
 	ret2 = 0;
 	if (!shell->pid && cmd != ';')
 		exit(0);
-	else if (shell->pid > 0)
+	ret1 = dup2(shell->cp_in, STDIN);
+	ret2 = dup2(shell->cp_out, STDOUT);
+	if (ret1 == -1 || ret2 == -1)
+		return (ft_perror(shell->split[0]));
+	if (shell->pid > 0)
 	{
-		ret1 = dup2(shell->cp_in, STDIN);
-		ret2 = dup2(shell->cp_out, STDOUT);
-		if (ret1 == -1 || ret2 == -1)
-			return (ft_perror(shell->split[0]));
 		close(shell->fd[WRITE_END]);
 		wait(&shell->status);
 		if (WIFEXITED(shell->status))
