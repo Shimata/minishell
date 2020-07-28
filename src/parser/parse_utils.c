@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 22:30:18 by jalvaro           #+#    #+#             */
-/*   Updated: 2020/07/27 16:56:15 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/28 13:19:04 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,18 @@ t_prs	*prslstback(t_prs *prs, char command)
 
 	tmp = 0;
 	if (!prs)
-		prs = malloc(sizeof(t_prs));
+		prs = ft_calloc(1, sizeof(t_prs));
 	else
 	{
 		while (prs->next)
 			prs = prs->next;
 		tmp = prs;
 		prs->command = command;
-		prs->next = malloc(sizeof(t_prs));
+		prs->next = ft_calloc(1, sizeof(t_prs));
 		prs = prs->next;
 	}
 	if (!prs)
 		ft_perror_exit("malloc");
-	prs->command = 0;
-	prs->arg = 0;
-	prs->next = 0;
 	prs->prev = tmp;
-	prs->dbl = 0;
 	return (prs);
 }

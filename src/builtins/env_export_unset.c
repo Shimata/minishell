@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wquinoa <wquinoa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wquinoa <wquinoa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:28:44 by wquinoa           #+#    #+#             */
-/*   Updated: 2020/07/27 17:05:32 by wquinoa          ###   ########.fr       */
+/*   Updated: 2020/07/28 13:13:53 by wquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			export(t_shell *shell)
 		return (swap_out(shell, elem, tmp));
 	while (*tmp && *tmp != '=')
 	{
-		if (!ft_isalpha(*tmp) && (*tmp != '_'))
+		if (!ft_isalnum(*tmp) && (*tmp != '_'))
 			return (ft_fput(NOT_IDENT, shell->split[1], 0, 1));
 		tmp++;
 	}
